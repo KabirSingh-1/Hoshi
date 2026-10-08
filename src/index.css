@@ -1,0 +1,173 @@
+@import '@fontsource-variable/anek-latin/standard.css';
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Anek Latin Variable', 'Noto Sans Gujarati', 'Noto Sans Devanagari', system-ui, sans-serif;
+
+  /* winter sky over the terrace */
+  --color-sky: #d7e7f0;
+  --color-sky-deep: #a9cde0;
+  --color-paper: #f6f9fa;
+  /* brand, from the business card */
+  --color-navy: #1b2a41;
+  --color-night: #111c2d;
+  --color-gold: #c08a1e;
+  --color-gold-deep: #8a5f0d;
+  /* kite tissue */
+  --color-rani: #c2255c;
+  --color-rani-soft: #e0457b;
+  --color-marigold: #f2a900;
+  --color-teal: #1f8a84;
+  --color-bamboo: #c9a46a;
+  --color-ink: #1d2733;
+  --color-ink-soft: #3f4f63;
+
+  --ease-wind: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    overflow-x: clip;
+    background: var(--color-sky);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    caret-color: var(--color-rani);
+    accent-color: var(--color-rani);
+  }
+  @media (min-width: 768px) {
+    body { font-size: 1.125rem; }
+  }
+  ::selection {
+    background: var(--color-marigold);
+    color: var(--color-navy);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-rani);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  a { text-underline-offset: 0.2em; text-decoration-thickness: 1.5px; }
+  h1, h2, h3 { text-wrap: balance; color: var(--color-navy); }
+  p { text-wrap: pretty; }
+  html { scrollbar-color: var(--color-navy) var(--color-sky); }
+}
+
+@layer components {
+  /* wide heavy caps: the kite-stall signboard voice */
+  .display {
+    font-stretch: 125%;
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+  .label {
+    font-stretch: 112%;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.8125rem;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.25rem;
+    padding: 0 1.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-stretch: 108%;
+    transition: transform 0.4s var(--ease-wind), box-shadow 0.4s var(--ease-wind), background-color 0.2s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:active { transform: translateY(0); }
+  .btn-primary {
+    background: var(--color-navy);
+    color: #fff;
+    box-shadow: 0 10px 24px -12px rgb(17 28 45 / 0.6);
+  }
+  .btn-primary:hover { background: var(--color-night); box-shadow: 0 16px 30px -14px rgb(17 28 45 / 0.7); }
+  .btn-gold { background: var(--color-marigold); color: var(--color-navy); }
+  .btn-gold:hover { background: #ffbb1f; }
+  .btn-ghost { color: var(--color-navy); box-shadow: inset 0 0 0 2px var(--color-navy); }
+  .btn-ghost:hover { background: rgb(27 42 65 / 0.06); }
+
+  /* tissue paper: translucent, multiplies where it overlaps */
+  .tissue { mix-blend-mode: multiply; }
+
+  .field {
+    width: 100%;
+    min-height: 3.25rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    background: #fff;
+    color: var(--color-ink);
+    box-shadow: inset 0 0 0 1.5px rgb(27 42 65 / 0.25);
+    transition: box-shadow 0.2s;
+  }
+  .field::placeholder { color: #5d6b7c; }
+  .field:hover { box-shadow: inset 0 0 0 1.5px rgb(27 42 65 / 0.5); }
+  .field:focus { outline: none; box-shadow: inset 0 0 0 2.5px var(--color-navy); }
+  .field[aria-invalid='true'] { box-shadow: inset 0 0 0 2.5px var(--color-rani); }
+}
+
+/* wind */
+@keyframes sway {
+  0%, 100% { transform: rotate(-4deg) translateY(0); }
+  50% { transform: rotate(3deg) translateY(-10px); }
+}
+@keyframes rise {
+  from { transform: translateY(40px); opacity: 0; }
+  12% { opacity: 1; }
+  to { transform: translateY(-120vh); opacity: 0.9; }
+}
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  45% { opacity: 0.86; }
+}
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) rotate(-6deg); }
+  50% { transform: translate(14px, -18px) rotate(5deg); }
+}
+@keyframes flutter { 0%, 100% { transform: skewX(0); } 50% { transform: skewX(-6deg); } }
+@keyframes flip { 0%, 60%, 100% { transform: scaleX(1); } 80% { transform: scaleX(-1); } }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes drip { 0% { transform: translateY(-8px); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(46px); opacity: 0; } }
+
+.sway { animation: sway 7s ease-in-out infinite; transform-origin: 50% 90%; }
+.drift { animation: drift 10s ease-in-out infinite; }
+.flutter { animation: flutter 3s ease-in-out infinite; transform-box: view-box; }
+.page-flip { animation: flip 5s var(--ease-wind) infinite; transform-box: view-box; }
+.bob { animation: bob 3.2s ease-in-out infinite; }
+.spin { animation: spin 14s linear infinite; transform-box: view-box; }
+.drip { animation: drip 1.8s ease-in infinite; }
+@keyframes swing { 0%, 100% { transform: rotate(-2.5deg); } 50% { transform: rotate(2deg); } }
+.kite-swing { animation: swing 6s ease-in-out infinite; transform-box: view-box; }
+.js .string-draw { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2s var(--ease-wind); }
+.js .in .string-draw, .js .string-draw.in { stroke-dashoffset: 0; }
+
+/* scroll reveal: content is visible by default; only hidden once JS is confirmed */
+.js [data-reveal] { transition: opacity 0.9s var(--ease-wind), transform 0.9s var(--ease-wind); }
+.js [data-reveal]:not(.in) { opacity: 0; transform: translateY(28px); }
+.lantern { animation: rise linear infinite, flicker 2.4s ease-in-out infinite; }
+.caret::after { content: ''; display: inline-block; width: 2px; height: 1.1em; margin-left: 2px; vertical-align: -0.15em; background: currentColor; animation: blink 1s step-end infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .sway, .lantern, .caret::after, .drift, .flutter, .page-flip, .bob, .spin, .drip, .kite-swing { animation: none !important; }
+  .js .string-draw { stroke-dashoffset: 0; }
+  .js [data-reveal]:not(.in) { opacity: 1; transform: none; }
+  .lantern { opacity: 0.9; bottom: var(--rest) !important; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}

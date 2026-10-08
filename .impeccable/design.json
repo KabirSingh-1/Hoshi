@@ -1,0 +1,451 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-08T10:50:11+00:00",
+  "title": "Design System: Hoshi Academy",
+  "extensions": {
+    "colorMeta": {
+      "navy": {
+        "role": "primary",
+        "displayName": "Study Navy",
+        "canonical": "oklch(22.5% 0.050 262.9)",
+        "tonalRamp": [
+          "#020920",
+          "#18243d",
+          "#34425d",
+          "#52617e",
+          "#7383a1",
+          "#95a6c5",
+          "#b8caeb",
+          "#ddefff"
+        ]
+      },
+      "navy-2": {
+        "role": "primary",
+        "displayName": "Lamplight Navy",
+        "canonical": "oklch(28.2% 0.066 263.7)",
+        "tonalRamp": [
+          "#010726",
+          "#142345",
+          "#304165",
+          "#4e6187",
+          "#6e82ab",
+          "#90a5cf",
+          "#b3caf5",
+          "#d8efff"
+        ]
+      },
+      "navy-3": {
+        "role": "primary",
+        "displayName": "Dusk Navy",
+        "canonical": "oklch(33.8% 0.071 263.8)",
+        "tonalRamp": [
+          "#010728",
+          "#132347",
+          "#2e4168",
+          "#4c618a",
+          "#6c82ae",
+          "#8ea5d3",
+          "#b2c9f9",
+          "#d6efff"
+        ]
+      },
+      "gold": {
+        "role": "secondary",
+        "displayName": "House Gold",
+        "canonical": "oklch(73.1% 0.115 85.2)",
+        "tonalRamp": [
+          "#1f0100",
+          "#3d1c00",
+          "#5d3a00",
+          "#7f5a00",
+          "#a27c1c",
+          "#c69f47",
+          "#ebc36c",
+          "#ffe991"
+        ]
+      },
+      "gold-soft": {
+        "role": "secondary",
+        "displayName": "Pale Gilt",
+        "canonical": "oklch(85.9% 0.075 89.6)",
+        "tonalRamp": [
+          "#170700",
+          "#332200",
+          "#523f04",
+          "#725f2a",
+          "#94804c",
+          "#b8a36e",
+          "#dcc891",
+          "#ffedb5"
+        ]
+      },
+      "gold-deep": {
+        "role": "secondary",
+        "displayName": "Antique Gold",
+        "canonical": "oklch(54.3% 0.098 84.4)",
+        "tonalRamp": [
+          "#1d0300",
+          "#3a1e00",
+          "#5a3c00",
+          "#7b5c08",
+          "#9e7d35",
+          "#c2a059",
+          "#e7c47d",
+          "#ffeaa1"
+        ]
+      },
+      "porcelain": {
+        "role": "neutral",
+        "displayName": "Porcelain",
+        "canonical": "oklch(96.9% 0.005 258.3)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#242527",
+          "#404244",
+          "#606164",
+          "#818285",
+          "#a3a5a8",
+          "#c7c9cc",
+          "#edeff1"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(91.1% 0.012 259.8)",
+        "tonalRamp": [
+          "#080b10",
+          "#22252b",
+          "#3e4249",
+          "#5d6168",
+          "#7e838a",
+          "#a1a5ad",
+          "#c5c9d1",
+          "#eaeff7"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(25.5% 0.033 261.6)",
+        "tonalRamp": [
+          "#040b19",
+          "#1c2535",
+          "#384254",
+          "#576274",
+          "#778397",
+          "#9aa6ba",
+          "#bdcadf",
+          "#e2efff"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "oklch(44.7% 0.034 261.3)",
+        "tonalRamp": [
+          "#040b19",
+          "#1c2536",
+          "#384255",
+          "#566275",
+          "#778397",
+          "#99a6bb",
+          "#bdcae0",
+          "#e2efff"
+        ]
+      },
+      "ivory": {
+        "role": "neutral",
+        "displayName": "Ivory",
+        "canonical": "oklch(95.9% 0.010 87.5)",
+        "tonalRamp": [
+          "#0d0b07",
+          "#272520",
+          "#44423c",
+          "#63615b",
+          "#85827c",
+          "#a8a59e",
+          "#ccc9c2",
+          "#f1eee7"
+        ]
+      },
+      "mist": {
+        "role": "neutral",
+        "displayName": "Mist",
+        "canonical": "oklch(77.4% 0.034 262.7)",
+        "tonalRamp": [
+          "#040b19",
+          "#1c2536",
+          "#384255",
+          "#576275",
+          "#778397",
+          "#9aa6bb",
+          "#bdcae0",
+          "#e2efff"
+        ]
+      },
+      "error": {
+        "role": "error",
+        "displayName": "Error Red",
+        "canonical": "oklch(50.1% 0.178 28.7)",
+        "tonalRamp": [
+          "#2d0000",
+          "#610000",
+          "#880000",
+          "#b0221b",
+          "#d84c3f",
+          "#ff7161",
+          "#ff9784",
+          "#ffd0c0"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero H1 only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section H2s, sentence case, full stop."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Legal questions, project names, side headings, live lessons, grades, italic signatures."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All reading text; 1.125rem from 768px."
+      },
+      "body-strong": {
+        "displayName": "Body strong",
+        "purpose": "Row headers, roles, FAQ questions, step titles."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase functional labels: fields, columns, days, chat speakers. Never a kicker."
+      }
+    },
+    "shadows": [
+      {
+        "name": "paper-drop",
+        "value": "0 30px 60px -34px rgb(15 27 51 / 0.45)",
+        "purpose": "Printed-stationery sheets, with a 1px Hairline ring."
+      },
+      {
+        "name": "card-lift",
+        "value": "0 24px 50px -24px rgb(0 0 0 / 0.7)",
+        "purpose": "Floating navy cards over the hero drawing, with a gold/25 ring."
+      },
+      {
+        "name": "gold-glow",
+        "value": "0 14px 30px -18px rgb(201 162 74 / 0.9)",
+        "purpose": "Under the gold button."
+      },
+      {
+        "name": "navy-glow",
+        "value": "0 14px 30px -18px rgb(15 27 51 / 0.8)",
+        "purpose": "Under the navy button."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-silk",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "All reveals, line-art draw-in and button lift."
+      },
+      {
+        "name": "draw-in",
+        "value": "stroke-dashoffset 1 to 0, 2.8s ease-silk",
+        "purpose": "Gold line-art draws itself in when in view (pathLength=1)."
+      },
+      {
+        "name": "reveal",
+        "value": "opacity 0 to 1 + translateY(24px) to 0, 1s ease-silk",
+        "purpose": "Sections and rows rise in on scroll; list items stagger 70 to 90ms."
+      },
+      {
+        "name": "button-lift",
+        "value": "translateY(-2px), 0.5s ease-silk",
+        "purpose": "Button hover."
+      },
+      {
+        "name": "bob",
+        "value": "translateY 0 to -8px, 6s ease-in-out infinite",
+        "purpose": "Hero floating cards; second card offset -3s."
+      },
+      {
+        "name": "glow",
+        "value": "opacity 0.5 to 0.85, 4s ease-in-out infinite",
+        "purpose": "Lamp light in the study drawing."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "all animation off, drawings fully drawn, reveals visible",
+        "purpose": "prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Gold Button",
+      "kind": "button",
+      "refersTo": "button-gold",
+      "description": "The one primary action per screen: book a consultation. Works on navy and light grounds.",
+      "html": "<div class=\"ds-wrap\"><button class=\"ds-btn ds-btn-gold\">Book a private consultation <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></button></div>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 0.7rem; min-height: 3.25rem; padding: 0 1.75rem; border: 0; border-radius: 999px; font-family: 'Anek Latin Variable', system-ui, sans-serif; font-weight: 600; font-size: 1.02rem; letter-spacing: 0.01em; cursor: pointer; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), background-color 0.3s, box-shadow 0.5s cubic-bezier(0.16,1,0.3,1); } .ds-btn:hover { transform: translateY(-2px); } .ds-btn:focus-visible { outline: 2px solid #c9a24a; outline-offset: 3px; } .ds-wrap { background: #0f1b33; padding: 32px; } .ds-btn-gold { background: #c9a24a; color: #0f1b33; box-shadow: 0 14px 30px -18px rgb(201 162 74 / 0.9); } .ds-btn-gold:hover { background: #e4cf98; }"
+    },
+    {
+      "name": "Navy Button",
+      "kind": "button",
+      "refersTo": "button-navy",
+      "description": "Form submit on light pages.",
+      "html": "<button class=\"ds-btn ds-btn-navy\">Request my consultation <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 0.7rem; min-height: 3.25rem; padding: 0 1.75rem; border: 0; border-radius: 999px; font-family: 'Anek Latin Variable', system-ui, sans-serif; font-weight: 600; font-size: 1.02rem; letter-spacing: 0.01em; cursor: pointer; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), background-color 0.3s, box-shadow 0.5s cubic-bezier(0.16,1,0.3,1); } .ds-btn:hover { transform: translateY(-2px); } .ds-btn:focus-visible { outline: 2px solid #c9a24a; outline-offset: 3px; } .ds-btn-navy { background: #0f1b33; color: #fff; box-shadow: 0 14px 30px -18px rgb(15 27 51 / 0.8); } .ds-btn-navy:hover { background: #24365c; }"
+    },
+    {
+      "name": "Line Button",
+      "kind": "button",
+      "refersTo": "button-line",
+      "description": "Quiet companion to the gold button on navy (mobile Call).",
+      "html": "<div class=\"ds-wrap\"><button class=\"ds-btn ds-btn-line\">Call</button></div>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 0.7rem; min-height: 3.25rem; padding: 0 1.75rem; border: 0; border-radius: 999px; font-family: 'Anek Latin Variable', system-ui, sans-serif; font-weight: 600; font-size: 1.02rem; letter-spacing: 0.01em; cursor: pointer; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), background-color 0.3s, box-shadow 0.5s cubic-bezier(0.16,1,0.3,1); } .ds-btn:hover { transform: translateY(-2px); } .ds-btn:focus-visible { outline: 2px solid #c9a24a; outline-offset: 3px; } .ds-wrap { background: #0f1b33; padding: 32px; } .ds-btn-line { background: transparent; color: #f4f1ea; box-shadow: inset 0 0 0 1px rgb(228 207 152 / 0.5); } .ds-btn-line:hover { box-shadow: inset 0 0 0 1px #c9a24a; }"
+    },
+    {
+      "name": "Underline Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Underline-only text field with an uppercase label. Rest underline shown at the 3:1 legibility floor (Soft Ink); the build currently uses a lighter grey that fails it.",
+      "html": "<div class=\"ds-wrap\"><label class=\"ds-label\" for=\"ds-n\">Your name</label><input id=\"ds-n\" class=\"ds-field\" placeholder=\"\" /></div>",
+      "css": ".ds-wrap { background: #f3f5f8; padding: 32px; font-family: 'Anek Latin Variable', system-ui, sans-serif; } .ds-label { display: block; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.75rem; color: #4a5568; } .ds-field { width: 100%; min-height: 3.25rem; padding: 0.75rem 0; background: transparent; color: #1a2333; border: 0; border-bottom: 1px solid #4a5568; border-radius: 0; font: inherit; font-size: 1.0625rem; transition: border-color 0.3s; } .ds-field:hover { border-color: #1a2333; } .ds-field:focus { outline: none; border-color: #0f1b33; box-shadow: 0 1px 0 0 #0f1b33; } .ds-field[aria-invalid='true'] { border-color: #b3261e; box-shadow: 0 1px 0 0 #b3261e; }"
+    },
+    {
+      "name": "Language Choice",
+      "kind": "chip",
+      "refersTo": "chip-choice",
+      "description": "Pill radio choice; selected fills navy.",
+      "html": "<div class=\"ds-chips\"><label class=\"ds-chip\"><input type=\"radio\" name=\"ds-l\" checked />English</label><label class=\"ds-chip\"><input type=\"radio\" name=\"ds-l\" />Hindi</label><label class=\"ds-chip\"><input type=\"radio\" name=\"ds-l\" />Gujarati</label></div>",
+      "css": ".ds-chips { display: flex; gap: 8px; font-family: 'Anek Latin Variable', system-ui, sans-serif; } .ds-chip { position: relative; display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.25rem; border-radius: 999px; color: #0f1b33; box-shadow: inset 0 0 0 1px rgb(15 27 51 / 0.25); cursor: pointer; transition: background-color 0.3s, color 0.3s; } .ds-chip input { position: absolute; inset: 0; opacity: 0; cursor: pointer; margin: 0; } .ds-chip:has(:checked) { background: #0f1b33; color: #f4f1ea; } .ds-chip:has(:focus-visible) { outline: 2px solid #c9a24a; outline-offset: 2px; }"
+    },
+    {
+      "name": "Header",
+      "kind": "nav",
+      "refersTo": "header",
+      "description": "Sticky navy header: wordmark, mist links, compact gold action.",
+      "html": "<header class=\"ds-nav\"><span class=\"ds-wm\"><span><b>HOSHI</b><i>ACADEMY</i></span><span class=\"ds-wm-rule\"></span></span><ul><li><a href=\"#\">Pathways</a></li><li><a href=\"#\">Approach</a></li><li><a href=\"#\">FAQ</a></li></ul><a class=\"ds-nav-cta\" href=\"#\">Book a private consultation</a></header>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 4.5rem; padding: 0 40px; background: #0f1b33; border-bottom: 1px solid rgb(255 255 255 / 0.1); font-family: 'Anek Latin Variable', system-ui, sans-serif; } .ds-wm { display: inline-flex; flex-direction: column; line-height: 1; } .ds-wm b { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.12em; color: #f4f1ea; margin-right: 8px; } .ds-wm i { font-style: normal; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.32em; color: #c9a24a; } .ds-wm-rule { margin-top: 6px; height: 1px; background: rgb(201 162 74 / 0.7); } .ds-nav ul { display: flex; gap: 32px; list-style: none; margin: 0; padding: 0; } .ds-nav ul a { color: #aab6cc; text-decoration: none; font-size: 0.92rem; transition: color 0.3s; } .ds-nav ul a:hover { color: #f4f1ea; } .ds-nav a:focus-visible { outline: 2px solid #c9a24a; outline-offset: 3px; border-radius: 4px; } .ds-nav-cta { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.25rem; border-radius: 999px; background: #c9a24a; color: #0f1b33; font-weight: 600; font-size: 0.92rem; text-decoration: none; transition: background-color 0.3s; } .ds-nav-cta:hover { background: #e4cf98; }"
+    },
+    {
+      "name": "Floating Card",
+      "kind": "card",
+      "refersTo": "card-floating",
+      "description": "Navy-2 card over the hero drawing; mist meta, serif value.",
+      "html": "<div class=\"ds-wrap\"><div class=\"ds-fcard\"><p class=\"ds-meta\">10:00 · with a mentor</p><p class=\"ds-val\">Mathematics</p><p class=\"ds-meta2\">Sample timetable</p></div></div>",
+      "css": ".ds-wrap { background: #0f1b33; padding: 40px; font-family: 'Anek Latin Variable', system-ui, sans-serif; } .ds-fcard { width: 14rem; padding: 16px; border-radius: 16px; background: #18284a; box-shadow: 0 24px 50px -24px rgb(0 0 0 / 0.7), 0 0 0 1px rgb(201 162 74 / 0.25); animation: ds-bob 6s ease-in-out infinite; } .ds-meta { margin: 0; font-size: 0.82rem; color: #aab6cc; } .ds-val { margin: 4px 0 0; font-family: 'Bodoni Moda Variable', 'Bodoni 72', Didot, serif; font-weight: 500; letter-spacing: -0.02em; line-height: 1.04; font-size: 1.35rem; color: #f4f1ea; } .ds-meta2 { margin: 4px 0 0; font-size: 0.78rem; color: rgb(170 182 204 / 0.8); } @keyframes ds-bob { 50% { transform: translateY(-8px); } } @media (prefers-reduced-motion: reduce) { .ds-fcard { animation: none; } }"
+    },
+    {
+      "name": "Printed Sheet",
+      "kind": "custom",
+      "refersTo": "paper-sheet",
+      "description": "Stationery artefact with ArchMark letterhead and gold rule: timetable, report, letter.",
+      "html": "<div class=\"ds-wrap\"><article class=\"ds-paper\"><header class=\"ds-lh\"><span class=\"ds-lh-brand\"><svg viewBox=\"0 0 32 40\" width=\"28\" height=\"36\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.3\" aria-hidden=\"true\"><path d=\"M3 39V16Q3 3 16 3t13 13v23Z\"/><path d=\"M8 39V17q0-8 8-8t8 8v22\"/><path d=\"M16 15l3 4-3 4-3-4Z\"/></svg><span><b>HOSHI</b><i>ACADEMY</i></span></span><span class=\"ds-lh-meta\">Term report<br/>Sample</span></header><table class=\"ds-rep\"><tr><th>Mathematics</th><td class=\"ds-grade\">A</td><td>Confident with fractions; next, ratio.</td></tr><tr><th>English</th><td class=\"ds-grade\">A-</td><td>Reads widely; drafting needs patience.</td></tr></table><div class=\"ds-sig\"><p>Your child’s mentor</p><span></span><small>Signature</small></div></article></div>",
+      "css": ".ds-wrap { background: #f3f5f8; padding: 40px; font-family: 'Anek Latin Variable', system-ui, sans-serif; color: #4a5568; } .ds-paper { background: #fff; border-radius: 2px; padding: 40px; box-shadow: 0 30px 60px -34px rgb(15 27 51 / 0.45), 0 0 0 1px #dde2ea; } .ds-lh { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid #c9a24a; } .ds-lh-brand { display: flex; align-items: center; gap: 12px; color: #8a6a1f; line-height: 1; } .ds-lh-brand b { display: block; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.14em; color: #0f1b33; } .ds-lh-brand i { display: block; font-style: normal; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.32em; color: #8a6a1f; } .ds-lh-meta { text-align: right; font-size: 0.8rem; } .ds-rep { width: 100%; margin-top: 8px; border-collapse: collapse; text-align: left; } .ds-rep tr { border-bottom: 1px solid #dde2ea; } .ds-rep th { padding: 16px 16px 16px 0; font-weight: 600; color: #0f1b33; } .ds-rep td { padding: 16px 0; font-size: 0.95rem; } .ds-grade { font-family: 'Bodoni Moda Variable', 'Bodoni 72', Didot, serif; font-weight: 500; letter-spacing: -0.02em; line-height: 1.04; font-size: 2rem; color: #8a6a1f; padding-right: 20px !important; } .ds-sig { width: 11rem; margin: 32px 0 0 auto; text-align: center; } .ds-sig p { margin: 0; font-family: 'Bodoni Moda Variable', 'Bodoni 72', Didot, serif; font-weight: 500; letter-spacing: -0.02em; line-height: 1.04; font-style: italic; font-size: 1.3rem; color: #0f1b33; } .ds-sig span { display: block; height: 1px; margin-top: 4px; background: rgb(15 27 51 / 0.4); } .ds-sig small { font-size: 0.75rem; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Private Study",
+    "overview": "This is a calm, well-run study room for one child, set out as a private school would present itself to a family it wants to keep. Deep navy fields hold the hero, the AI section, the founding-families close, the header and the footer. White and cool porcelain pages carry the reading: legal answers, approach, comparison, the week, the letter, the FAQ, the form. Gold is the house metal. It appears as hairline rules, fine line drawings, the primary action, the single emphasised phrase in a navy headline, and the grade on a report. It never covers a whole surface.\n\nThe world says \"homeschooling for my child\" within one second, and that rule outranks everything else here. The hero drawing is literally a child at a home desk with a mentor on a laptop, under a haveli-arch window, next to a lamp, a globe and books. An abstract metaphor world (kites) was built, then rejected by test viewers because it read as a festival site. The concrete scene is what this system is for. Supporting artefacts are set as printed stationery (timetable, term report, a letter from the MD) on white sheets that carry the ArchMark letterhead and a gold rule.\n\nDensity is generous and editorial. Sections breathe at 96 to 128px vertical padding. Lists are separated by hairline rules, not boxed into cards. Motion is soft and slow: gold strokes draw themselves in, sections rise into place, the floating cards bob gently. With reduced motion everything is static and fully drawn.",
+    "keyCharacteristics": [
+      "Navy and porcelain alternate section by section. Navy is drenched, never a tinted band.",
+      "Gold line-art drawn with a single round-capped stroke, every path carrying `pathLength=1` so it can draw in.",
+      "Bodoni Moda display in sentence case, ending in a full stop. Anek Latin for everything a parent reads.",
+      "Printed-stationery artefacts with a letterhead, gold rule and serif signature.",
+      "Hairline-ruled lists and tables instead of card grids.",
+      "Pill buttons, a 16px radius for navy cards, a 2px radius for paper."
+    ],
+    "rules": [
+      {
+        "name": "The Drench Rule",
+        "body": "A section is navy or it is light (white or porcelain). Navy sections are full-bleed. Don't put a navy band inside a light section, and don't tint the navy.",
+        "section": "colors"
+      },
+      {
+        "name": "The Metal Rule",
+        "body": "Gold is a line, a mark, or the one primary action. It is never a section background, a card fill or a gradient wash. Use House Gold on navy and Antique Gold on light grounds.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Phrase Rule",
+        "body": "A navy headline may set its final phrase in House Gold. Only one phrase, only on navy, and never on light pages.",
+        "section": "colors"
+      },
+      {
+        "name": "The Sentence-Case Rule",
+        "body": "Bodoni is never set in capitals. Headlines read as sentences and end with a full stop.",
+        "section": "typography"
+      },
+      {
+        "name": "The Functional Label Rule",
+        "body": "Uppercase tracked labels name a field, a column or a speaker. They never sit above a headline as a kicker or eyebrow.",
+        "section": "typography"
+      },
+      {
+        "name": "The Desk Rule",
+        "body": "Shadows are tinted, diffuse and pushed down by negative spread. When something needs an edge, use a 1px ring in gold or Hairline instead of a heavier shadow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Wordmark Exception",
+        "body": "\"HOSHI\" (bold, 0.12 to 0.14em tracking) with \"ACADEMY\" (semibold, 0.32em, gold) over a gold hairline is the brand mark from the business card. It is the only place where Anek is set in spaced capitals at display size.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "Do show the category literally: a child, a desk, a mentor, books. A parent must read \"homeschooling for my child\" in under a second.",
+      "Do alternate navy and light sections full-bleed, and keep gold to lines, marks, the primary action and one headline phrase on navy.",
+      "Do use Antique Gold (gold-deep) for any gold text or icon on white or porcelain.",
+      "Do set headlines in Bodoni Moda, sentence case, ending in a full stop. Set every reading line in Anek Latin.",
+      "Do separate content with hairline rules, and present take-home artefacts as printed sheets with the ArchMark letterhead.",
+      "Do draw new illustrations and icons in the same single gold stroke with `pathLength=1`, and label sample content as a sample.",
+      "Do honour reduced motion: drawings fully drawn, reveals visible, no bob or glow."
+    ],
+    "donts": [
+      "Don't return to abstract metaphor imagery (kites, festival motifs) in place of the study scene. Test viewers rejected it.",
+      "Don't use bright subject colours, cartoons, robot art, stock-photo children or neon edtech gradients.",
+      "Don't fill a section or card with gold, or set House Gold text on white or porcelain.",
+      "Don't set Bodoni in capitals, or put an uppercase label above a headline as a kicker.",
+      "Don't use hard, offset or untinted heavy shadows. Use the desk shadows or a 1px ring.",
+      "Don't box features into card grids, or add badge rows and fee cards.",
+      "Don't give a form field a rest underline below 3:1 against its surface."
+    ]
+  }
+}
