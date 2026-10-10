@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 /* ---------- copy: English lives in the markup, these replace the tagged strings ---------- */
 const T = {
   en: {},
-  hi: { signin: 'साइन इन', home: 'होम', stages: 'आयु वर्ग', subjects: 'विषय', ai: 'AI और भविष्य के कौशल', why: 'होशी क्यों?', parents: 'अभिभावक', diff: 'हम अलग कैसे हैं', about: 'होशी के बारे में', search: 'होशी में खोजें', change: 'भाषा बदलें', available: 'अभी उपलब्ध', other: 'अन्य भाषाएँ', soon: 'जल्द आ रहा है', hs: 'होम स्कूलिंग', music: 'संगीत', h1: 'कक्षा से आगे की पढ़ाई', heroP: '3–15 वर्ष के बच्चों के लिए व्यक्तिगत होम स्कूलिंग और होम ट्यूशन।', cta: 'निःशुल्क परामर्श बुक करें', demo: 'अपने बच्चे के लिए निःशुल्क डेमो क्लास बुक करें', today: 'आज आप क्या करना चाहेंगे?', what: 'होशी क्या है?', pathP: '3 से 16 वर्ष तक घर पर सीखने की स्पष्ट राह', finder: 'आपके बच्चे की उम्र', subjH: 'विषय', diffH: 'आपके बच्चे पर शिक्षक का पूरा ध्यान', ctaH: 'अपने बच्चे के लिए निःशुल्क डेमो क्लास बुक करें' },
-  gu: { signin: 'સાઇન ઇન', home: 'હોમ', stages: 'વય જૂથ', subjects: 'વિષયો', ai: 'AI અને ભવિષ્યના કૌશલ્યો', why: 'હોશી શા માટે?', parents: 'વાલીઓ', diff: 'અમે કેવી રીતે અલગ છીએ', about: 'હોશી વિશે', search: 'હોશીમાં શોધો', change: 'ભાષા બદલો', available: 'હમણાં ઉપલબ્ધ', other: 'અન્ય ભાષાઓ', soon: 'ટૂંક સમયમાં', hs: 'હોમ સ્કૂલિંગ', music: 'સંગીત', h1: 'વર્ગખંડથી આગળનું શિક્ષણ', heroP: '3–15 વર્ષનાં બાળકો માટે વ્યક્તિગત હોમ સ્કૂલિંગ અને હોમ ટ્યુશન.', cta: 'મફત પરામર્શ બુક કરો', demo: 'તમારા બાળક માટે મફત ડેમો ક્લાસ બુક કરો', today: 'આજે તમે શું કરવા માંગો છો?', what: 'હોશી શું છે?', pathP: '3 થી 16 વર્ષ સુધી ઘરે શીખવાનો સ્પષ્ટ માર્ગ', finder: 'તમારા બાળકની ઉંમર', subjH: 'વિષયો', diffH: 'તમારા બાળક પર શિક્ષકનું પૂરું ધ્યાન', ctaH: 'તમારા બાળક માટે મફત ડેમો ક્લાસ બુક કરો' },
+  hi: { signin: 'साइन इन', home: 'होम', stages: 'आयु वर्ग', subjects: 'विषय', ai: 'AI और भविष्य के कौशल', why: 'होशी क्यों?', parents: 'अभिभावक', diff: 'हम अलग कैसे हैं', about: 'होशी के बारे में', search: 'होशी में खोजें', change: 'भाषा बदलें', available: 'अभी उपलब्ध', other: 'अन्य भाषाएँ', soon: 'जल्द आ रहा है', hs: 'होम स्कूलिंग', music: 'वाद्य यंत्र', h1: 'कक्षा से आगे की पढ़ाई', heroP: '3–15 वर्ष के बच्चों के लिए व्यक्तिगत होम स्कूलिंग और होम ट्यूशन।', cta: 'निःशुल्क परामर्श बुक करें', demo: 'अपने बच्चे के लिए निःशुल्क डेमो क्लास बुक करें', today: 'आज आप क्या करना चाहेंगे?', what: 'होशी क्या है?', pathP: '3 से 16 वर्ष तक घर पर सीखने की स्पष्ट राह', finder: 'आपके बच्चे की उम्र', subjH: 'विषय', diffH: 'आपके बच्चे पर शिक्षक का पूरा ध्यान', ctaH: 'अपने बच्चे के लिए निःशुल्क डेमो क्लास बुक करें' },
+  gu: { signin: 'સાઇન ઇન', home: 'હોમ', stages: 'વય જૂથ', subjects: 'વિષયો', ai: 'AI અને ભવિષ્યના કૌશલ્યો', why: 'હોશી શા માટે?', parents: 'વાલીઓ', diff: 'અમે કેવી રીતે અલગ છીએ', about: 'હોશી વિશે', search: 'હોશીમાં શોધો', change: 'ભાષા બદલો', available: 'હમણાં ઉપલબ્ધ', other: 'અન્ય ભાષાઓ', soon: 'ટૂંક સમયમાં', hs: 'હોમ સ્કૂલિંગ', music: 'સંગીતનાં સાધનો', h1: 'વર્ગખંડથી આગળનું શિક્ષણ', heroP: '3–15 વર્ષનાં બાળકો માટે વ્યક્તિગત હોમ સ્કૂલિંગ અને હોમ ટ્યુશન.', cta: 'મફત પરામર્શ બુક કરો', demo: 'તમારા બાળક માટે મફત ડેમો ક્લાસ બુક કરો', today: 'આજે તમે શું કરવા માંગો છો?', what: 'હોશી શું છે?', pathP: '3 થી 16 વર્ષ સુધી ઘરે શીખવાનો સ્પષ્ટ માર્ગ', finder: 'તમારા બાળકની ઉંમર', subjH: 'વિષયો', diffH: 'તમારા બાળક પર શિક્ષકનું પૂરું ધ્યાન', ctaH: 'તમારા બાળક માટે મફત ડેમો ક્લાસ બુક કરો' },
 }
 const LANG_NAMES = { en: 'English', hi: 'हिन्दी', gu: 'ગુજરાતી' }
 const OTHERS = [['मराठी', 'Marathi'], ['বাংলা', 'Bengali'], ['தமிழ்', 'Tamil'], ['తెలుగు', 'Telugu'], ['ಕನ್ನಡ', 'Kannada'], ['ਪੰਜਾਬੀ', 'Punjabi'], ['اردو', 'Urdu'], ['Español', 'Spanish']]
@@ -26,10 +26,10 @@ const STAGES = [
 
 const PROGS = [
   { href: '#contact', c: 'academic', img: '/img/girl-reading.jpg', alt: 'Young girl reading with her teacher', tag: 'Classes 1–5', h: 'Foundational Academics', p: 'Reading, writing, numbers, EVS and science basics.' },
-  { href: '#seniors', c: 'academic', img: '/img/teen-textbook.jpg', alt: 'Teenage student studying with a textbook', tag: 'Classes 6–12', h: 'Middle & Senior Subjects', p: 'All core and elective subjects, taught by qualified subject specialists.' },
+  { href: '#seniors', c: 'academic', img: '/img/teen-studying-home.jpg', alt: 'Teenage student writing notes at his desk at home', tag: 'Classes 6–12', h: 'Middle & Senior Subjects', p: 'All core and elective subjects, taught by qualified subject specialists.' },
   { href: '#contact', c: 'lang', img: '/img/globe.jpg', alt: 'Child pointing at a globe', tag: 'Languages', h: 'Languages', p: 'English, Hindi, Gujarati and other supported languages.' },
   { href: '#skills', c: 'skill', img: '/img/coding.jpg', alt: 'Older student writing code on a computer', tag: 'Classes 6–12', h: 'AI & Future Skills', p: 'AI, coding, data and digital skills for older students.' },
-  { href: '#contact', c: 'creative', img: '/img/piano.jpg', alt: 'Young girl with headphones playing piano', tag: 'Creative', h: 'Music', p: 'Rhythm, singing, keyboard and music theory.' },
+  { href: '#contact', c: 'creative', img: '/img/piano.jpg', alt: 'Young girl with headphones playing piano', tag: 'Creative', h: 'Musical Instruments', p: 'Rhythm, singing, keyboard and music theory.' },
   { href: '#contact', c: 'skill', img: '/img/abacus.jpg', alt: 'Child moving coloured beads on an abacus', tag: 'Skill', h: 'Abacus & Mental Math', p: 'A practical skill for fast, confident maths.' },
   { href: '#contact', c: 'creative', img: '/img/painting.jpg', alt: 'Child painting with a brush and palette', tag: 'Creative', h: 'Art & Creativity', p: 'Drawing, painting, craft and design.' },
   { href: '#teachers', c: 'academic', img: '/img/teacher-boy.jpg', alt: 'Teacher and boy drawing together at home', tag: 'Personalized', h: 'Individual Home Schooling', p: 'A dedicated teacher for your child, at home, at your timings.' },
@@ -39,7 +39,7 @@ const FILTERS = [['all', 'All'], ['academic', 'Academic'], ['lang', 'Languages']
 const MEGA = {
   'm-about': { h: 'About Hoshi', p: 'Personalised home schooling and home tuition for every child.', links: [['#about', 'What is Hoshi?'], ['#about', 'Why Hoshi?'], ['#different', 'How we are different'], ['#contact', 'Talk to a mentor']] },
   'm-stages': { h: 'Age stages', p: 'A clear path from age 3 to 15.', links: [['#pathway', 'Little Stars · 3–5', { st: 0 }], ['#pathway', 'Rising Stars · 6–8', { st: 1 }], ['#pathway', 'Bright Stars · 9–11', { st: 2 }], ['#pathway', 'Shining Stars · 12–13', { st: 3 }], ['#pathway', 'Guiding Stars · 14–15', { st: 4 }], ['#seniors', 'Classes 10 & 12']] },
-  'm-subj': { h: 'Subjects', p: 'Every subject from Class 1 to 12, plus creative and future skills.', links: [['#subjects', 'Foundational Academics', { f: 'academic' }], ['#subjects', 'Middle & Senior Subjects', { f: 'academic' }], ['#subjects', 'Languages', { f: 'lang' }], ['#subjects', 'Music', { f: 'creative' }], ['#subjects', 'Abacus & Mental Math', { f: 'skill' }], ['#subjects', 'Art & Creativity', { f: 'creative' }], ['#subjects', 'AI & Future Skills', { f: 'skill' }], ['#subjects', 'Individual Home Schooling', { f: 'academic' }]] },
+  'm-subj': { h: 'Subjects', p: 'Every subject from Class 1 to 12, plus creative and future skills.', links: [['#subjects', 'Foundational Academics', { f: 'academic' }], ['#subjects', 'Middle & Senior Subjects', { f: 'academic' }], ['#subjects', 'Languages', { f: 'lang' }], ['#subjects', 'Musical Instruments', { f: 'creative' }], ['#subjects', 'Abacus & Mental Math', { f: 'skill' }], ['#subjects', 'Art & Creativity', { f: 'creative' }], ['#subjects', 'AI & Future Skills', { f: 'skill' }], ['#subjects', 'Individual Home Schooling', { f: 'academic' }]] },
 }
 
 const ABC = [['A', 'Apple', '#8128e7'], ['B', 'Ball', '#5465f8'], ['C', 'Cat', '#008a08'], ['D', 'Duck', '#d74120']]
@@ -103,10 +103,10 @@ export default function App() {
     return () => { document.removeEventListener('click', onClick); document.removeEventListener('keydown', onKey) }
   }, [])
 
-  // auto-advance every 7s; any slide change restarts the timer
+  // auto-advance every 5s; any slide change restarts the timer
   useEffect(() => {
     if (!playing) return
-    const id = setInterval(() => setCur((c) => (c + 1) % SLIDES.length), 7000)
+    const id = setInterval(() => setCur((c) => (c + 1) % SLIDES.length), 5000)
     return () => clearInterval(id)
   }, [playing, cur])
 
@@ -351,7 +351,7 @@ export default function App() {
               <div className="vis"><div className="frame sh"><img className="img" src="/img/coding.jpg" alt="Older student writing code on a computer" loading="lazy" /></div></div>
             </article>
             <article className="tile t-mint">
-              <div className="tx"><h3>{tr('music', 'Music')}</h3><p>Listening, rhythm and memory through singing and instruments.</p><a className="go" href="#contact">Explore music →</a></div>
+              <div className="tx"><h3>{tr('music', 'Musical Instruments')}</h3><p>Listening, rhythm and memory through singing and instruments.</p><a className="go" href="#contact">Explore musical instruments →</a></div>
               <div className="vis"><div className="frame"><img className="img" src="/img/piano.jpg" alt="Young girl with headphones playing piano" loading="lazy" /></div></div>
             </article>
             <article className="tile t-aqua">
