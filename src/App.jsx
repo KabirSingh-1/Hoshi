@@ -1,751 +1,439 @@
 import { useEffect, useRef, useState } from 'react'
-import {
-  PHONE, WA_TEXT, AGES, AGE_NOTES, INTERESTS, PILLARS, TRUTHS, LEGAL,
-  AI_MONTHS, PROJECTS, WEEK, MENTORS, FAQ,
-} from './content'
-import { SkyKites, Skyline, Child, PillarArt, LegalIcon, ProjectArt, MiniKite, Firki } from './Art'
 
-// ponytail: pushes to GTM/GA4 dataLayer when present; no-op until analytics is installed.
-const track = (event, data = {}) => window.dataLayer?.push({ event, ...data })
-const waLink = (text = WA_TEXT, source = 'site') =>
-  `https://wa.me/91${PHONE}?text=${encodeURIComponent(`${text} [${source}]`)}`
-
-const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-function useInView(opts = { threshold: 0.3 }) {
-  const ref = useRef(null)
-  const [seen, setSeen] = useState(false)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const io = new IntersectionObserver(([e]) => e.isIntersecting && setSeen(true), opts)
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
-  return [ref, seen]
+/* ---------- copy: English lives in the markup, these replace the tagged strings ---------- */
+const T = {
+  en: {},
+  hi: { signin: 'साइन इन', home: 'होम', stages: 'आयु वर्ग', subjects: 'विषय', ai: 'AI और भविष्य के कौशल', why: 'होशी क्यों?', parents: 'अभिभावक', diff: 'हम अलग कैसे हैं', about: 'होशी के बारे में', search: 'होशी में खोजें', change: 'भाषा बदलें', available: 'अभी उपलब्ध', other: 'अन्य भाषाएँ', soon: 'जल्द आ रहा है', hs: 'होम स्कूलिंग', music: 'संगीत', h1: 'कक्षा से आगे की पढ़ाई', heroP: '3–15 वर्ष के बच्चों के लिए व्यक्तिगत होम स्कूलिंग और होम ट्यूशन।', cta: 'निःशुल्क परामर्श बुक करें', demo: 'अपने बच्चे के लिए निःशुल्क डेमो बुक करें', today: 'आज आप क्या करना चाहेंगे?', what: 'होशी क्या है?', pathP: '3 से 16 वर्ष तक घर पर सीखने की स्पष्ट राह', finder: 'आपके बच्चे की उम्र', subjH: 'विषय', diffH: 'आपके बच्चे पर शिक्षक का पूरा ध्यान', ctaH: 'अपने बच्चे के लिए निःशुल्क डेमो बुक करें' },
+  gu: { signin: 'સાઇન ઇન', home: 'હોમ', stages: 'વય જૂથ', subjects: 'વિષયો', ai: 'AI અને ભવિષ્યના કૌશલ્યો', why: 'હોશી શા માટે?', parents: 'વાલીઓ', diff: 'અમે કેવી રીતે અલગ છીએ', about: 'હોશી વિશે', search: 'હોશીમાં શોધો', change: 'ભાષા બદલો', available: 'હમણાં ઉપલબ્ધ', other: 'અન્ય ભાષાઓ', soon: 'ટૂંક સમયમાં', hs: 'હોમ સ્કૂલિંગ', music: 'સંગીત', h1: 'વર્ગખંડથી આગળનું શિક્ષણ', heroP: '3–15 વર્ષનાં બાળકો માટે વ્યક્તિગત હોમ સ્કૂલિંગ અને હોમ ટ્યુશન.', cta: 'મફત પરામર્શ બુક કરો', demo: 'તમારા બાળક માટે મફત ડેમો બુક કરો', today: 'આજે તમે શું કરવા માંગો છો?', what: 'હોશી શું છે?', pathP: '3 થી 16 વર્ષ સુધી ઘરે શીખવાનો સ્પષ્ટ માર્ગ', finder: 'તમારા બાળકની ઉંમર', subjH: 'વિષયો', diffH: 'તમારા બાળક પર શિક્ષકનું પૂરું ધ્યાન', ctaH: 'તમારા બાળક માટે મફત ડેમો બુક કરો' },
 }
+const LANG_NAMES = { en: 'English', hi: 'हिन्दी', gu: 'ગુજરાતી' }
+const OTHERS = [['मराठी', 'Marathi'], ['বাংলা', 'Bengali'], ['தமிழ்', 'Tamil'], ['తెలుగు', 'Telugu'], ['ಕನ್ನಡ', 'Kannada'], ['ਪੰਜਾਬੀ', 'Punjabi'], ['اردو', 'Urdu'], ['Español', 'Spanish']]
 
-/* ---------- icons (authored, one 2px stroke) ---------- */
-const Icon = {
-  phone: (p) => (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...p}>
-      <path d="M5 3h3l2 5-2.5 1.5a11 11 0 0 0 7 7L16 14l5 2v3a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2Z" />
-    </svg>
-  ),
-  chat: (p) => (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...p}>
-      <path d="M3.5 20.5 5 16a8.5 8.5 0 1 1 3.2 3.2Z" />
-      <path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-1.8-1.8l.8-1-1-2Z" strokeWidth="1.5" />
-    </svg>
-  ),
-  arrow: (p) => (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...p}>
-      <path d="M5 12h14M13 6l6 6-6 6" />
-    </svg>
-  ),
-  plus: (p) => (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true" {...p}>
-      <path d="M12 5v14M5 12h14" />
-    </svg>
-  ),
-}
-
-/* ---------- the kite ---------- */
-// Four tissue quadrants on a bamboo spine and bow. Clockwise from top-left: Learn, Explore, Create, Apply.
-const QUADS = ['100,6 6,100 100,100', '100,6 194,100 100,100', '194,100 100,194 100,100', '100,194 6,100 100,100']
-const CENTROIDS = [[69, 72], [131, 72], [131, 136], [69, 136]]
-
-function KiteShape({ colors, words = true }) {
-  return (
-    <g>
-      {QUADS.map((pts, i) => (
-        <polygon key={i} points={pts} className="tissue" style={{ fill: colors[i], fillOpacity: 0.92, transition: 'fill 0.7s var(--ease-wind)' }} />
-      ))}
-      <polygon points="100,6 194,100 100,194 6,100" fill="none" stroke="#1B2A41" strokeOpacity="0.35" strokeWidth="1" />
-      <path d="M100 6V194" stroke="#C9A46A" strokeWidth="2.4" strokeLinecap="round" />
-      <path d="M8 100Q100 46 192 100" fill="none" stroke="#C9A46A" strokeWidth="2.4" strokeLinecap="round" />
-      <polygon points="100,190 84,218 116,218" className="tissue" style={{ fill: colors[0], fillOpacity: 0.9, transition: 'fill 0.7s' }} />
-      {words && PILLARS.map((p, i) => (
-        <text key={p.word} x={CENTROIDS[i][0]} y={CENTROIDS[i][1]} textAnchor="middle" fill="#fff" style={{ fontSize: 10.5, fontWeight: 800, fontStretch: '125%', letterSpacing: '0.04em' }}>
-          {p.word.toUpperCase()}
-        </text>
-      ))}
-    </g>
-  )
-}
-
-/* ---------- header ---------- */
-function Wordmark({ light = false }) {
-  return (
-    <span className="inline-flex flex-col leading-none">
-      <span className="flex items-baseline gap-1.5" style={{ fontStretch: '125%' }}>
-        <span className={`text-[1.35rem] font-extrabold tracking-wide ${light ? 'text-white' : 'text-navy'}`}>HOSHI</span>
-        <span className={`text-[0.8rem] font-bold tracking-[0.2em] ${light ? 'text-marigold' : 'text-gold-deep'}`}>ACADEMY</span>
-      </span>
-      <span className="mt-1 h-px w-full bg-gold" />
-    </span>
-  )
-}
-
-const NAV = [
-  ['#model', 'How it works'],
-  ['#legal', 'Legal & certificates'],
-  ['#ai', 'AI & skills'],
-  ['#week', 'A week'],
-  ['#faq', 'FAQ'],
+const SLIDES = [
+  { img: '/img/hero-drawing.jpg', alt: 'Parent and daughter drawing together at home', shield: <>Every child is a <b>star</b></>, h: 'Learning beyond classrooms', hKey: 'h1', p: 'Personalised home schooling and home tuition for ages 3–15.', pKey: 'heroP', btn: 'Book a free demo for your child', btnKey: 'demo', href: '#contact' },
+  { img: '/img/paint-face.jpg', alt: 'Laughing child with paint on her face', shield: <>Music, Art <b>&amp; Abacus</b></>, h: 'More than textbooks', p: 'Creative and practical skills, taught by specialists, every week.', btn: 'Explore subjects', href: '#subjects' },
+  { img: '/img/teen-textbook.jpg', alt: 'Teenage student studying with a textbook', shield: <>Classes <b>10 &amp; 12</b></>, h: 'Board exam ready', p: 'Expert subject tutors and a clear plan for Classes 10 and 12.', btn: 'See senior programme', href: '#seniors' },
 ]
 
-function Header() {
-  const [scrolled, setScrolled] = useState(false)
-  useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 24)
-    on()
-    window.addEventListener('scroll', on, { passive: true })
-    return () => window.removeEventListener('scroll', on)
-  }, [])
-  return (
-    <header className={`sticky top-0 z-40 bg-sky transition-shadow duration-300 ${scrolled ? 'shadow-[0_8px_24px_-18px_rgb(17_28_45/0.5)]' : ''}`}>
-      <div className="mx-auto flex h-[4.5rem] max-w-[77.5rem] items-center justify-between gap-3 px-4 md:gap-6 md:px-10">
-        <a href="#top" aria-label="Hoshi Academy, back to top"><Wordmark /></a>
-        <nav aria-label="Sections" className="hidden lg:block">
-          <ul className="flex gap-7 text-[0.95rem] font-semibold text-ink-soft">
-            {NAV.map(([href, label]) => (
-              <li key={href}><a href={href} className="hover:text-navy hover:underline">{label}</a></li>
-            ))}
-          </ul>
-        </nav>
-        <div className="flex items-center gap-2">
-          <a href={waLink(WA_TEXT, 'header')} onClick={() => track('whatsapp_click', { where: 'header' })} target="_blank" rel="noopener" aria-label="Chat on WhatsApp" className="hidden size-11 place-items-center sm:grid rounded-full text-navy hover:bg-navy/5">
-            <Icon.chat />
-          </a>
-          <a href="#enquire" onClick={() => track('cta_click', { where: 'header' })} className="btn btn-primary !min-h-11 !px-5 text-[0.95rem]">Book a call</a>
-        </div>
-      </div>
-    </header>
-  )
-}
-
-/* ---------- hero: build your child's kite ---------- */
-function Radio({ name, value, checked, onChange, children }) {
-  return (
-    <label className={`relative inline-flex min-h-11 cursor-pointer items-center rounded-full px-4 text-[0.95rem] font-semibold transition-colors duration-200 ${checked ? 'bg-navy text-white' : 'bg-white/60 text-navy hover:bg-white'}`}>
-      <input type="radio" name={name} value={value} checked={checked} onChange={onChange} className="peer absolute inset-0 cursor-pointer opacity-0" />
-      <span className="pointer-events-none">{children}</span>
-      <span className="pointer-events-none absolute inset-0 rounded-full peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-rani" />
-    </label>
-  )
-}
-
-// The kite swings on its string around the child's hand, like the real thing.
-function HeroScene({ colors }) {
-  return (
-    <svg viewBox="0 0 520 760" className="w-full" role="img" aria-label="A child on a rooftop flying a kite with four panels: Learn, Explore, Create, Apply">
-      <g className="kite-swing" style={{ transformOrigin: '474px 582px' }}>
-        <path d="M250 216Q440 360 474 582" fill="none" stroke="#C08A1E" strokeWidth="1.6" />
-        <g transform="translate(70 0) scale(1.8)" style={{ filter: 'drop-shadow(0 18px 22px rgb(27 42 65 / 0.18))' }}>
-          <KiteShape colors={colors} />
-        </g>
-      </g>
-      <Child x="370" y="560" width="120" height="200" />
-    </svg>
-  )
-}
-
-function Hero({ plan, setPlan }) {
-  const interest = INTERESTS.find((x) => x.id === plan.interest)
-  return (
-    <section id="top" className="relative overflow-hidden">
-      <SkyKites className="hidden md:block" />
-      <Skyline className="absolute inset-x-0 bottom-0 h-[240px] w-full" />
-      <div className="relative z-10 mx-auto grid max-w-[77.5rem] gap-4 px-4 pt-8 md:px-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8 lg:pt-14">
-        <div className="pb-6 lg:pb-[230px]">
-          <h1 className="display text-[clamp(2.75rem,8.4vw,5.6rem)]">
-            Learning beyond <span className="text-rani">classrooms.</span>
-          </h1>
-          <p className="mt-6 max-w-[32rem] text-[1.15rem] leading-relaxed text-ink-soft md:text-[1.25rem]">
-            Homeschooling in Gandhinagar with strong academics, real AI skills and a path built around your child.
-          </p>
-
-          <form className="mt-8 max-w-[36rem] space-y-5" onSubmit={(e) => e.preventDefault()} aria-label="Build an example learning path">
-            <fieldset>
-              <legend className="label text-navy">Your child’s age</legend>
-              <div className="mt-2.5 flex flex-wrap gap-2">
-                {AGES.map((a) => (
-                  <Radio key={a} name="age" value={a} checked={plan.age === a} onChange={() => setPlan({ ...plan, age: a })}>{a}</Radio>
-                ))}
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend className="label text-navy">They light up for</legend>
-              <div className="mt-2.5 flex flex-wrap gap-2">
-                {INTERESTS.map((x) => (
-                  <Radio key={x.id} name="interest" value={x.id} checked={plan.interest === x.id} onChange={() => setPlan({ ...plan, interest: x.id })}>{x.name}</Radio>
-                ))}
-              </div>
-            </fieldset>
-          </form>
-
-          <ol className="mt-6 grid max-w-[36rem] gap-x-6 gap-y-2 sm:grid-cols-2" aria-live="polite" aria-label={`Example path for a ${plan.age} year-old`}>
-            {interest.panels.map((line, i) => (
-              <li key={i} className="flex items-start gap-2.5 text-[0.95rem] leading-snug text-ink">
-                <svg viewBox="0 0 10 10" width="12" height="12" className="mt-1 shrink-0" aria-hidden="true"><path d="M5 0 10 5 5 10 0 5Z" fill={interest.colors[i]} style={{ transition: 'fill .7s' }} /></svg>
-                {line}
-              </li>
-            ))}
-          </ol>
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a href="#enquire" onClick={() => track('cta_click', { where: 'hero', ...plan })} className="btn btn-primary text-[1.05rem]">
-              Book a free counselling call <Icon.arrow />
-            </a>
-            <a href={waLink(WA_TEXT, 'hero')} onClick={() => track('whatsapp_click', { where: 'hero' })} target="_blank" rel="noopener" className="btn btn-ghost bg-sky/70 text-[1.05rem]">
-              <Icon.chat /> Chat on WhatsApp
-            </a>
-          </div>
-        </div>
-
-        <div className="mx-auto mb-[22px] w-[min(86vw,30rem)] self-end lg:w-[34rem] lg:max-w-full">
-          <HeroScene colors={interest.colors} />
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ---------- the problem ---------- */
-function Truths() {
-  return (
-    <section className="relative overflow-hidden bg-rani text-white">
-      <SkyKites tone="#ffffff" />
-      <div className="relative mx-auto max-w-[77.5rem] px-4 py-20 md:px-10 md:py-28">
-        <h2 data-reveal className="text-[1.35rem] font-semibold !text-white/90 md:text-[1.6rem]">Sound familiar?</h2>
-        <ul className="mt-8 space-y-8 md:mt-12 md:space-y-10">
-          {TRUTHS.map(([a, b]) => (
-            <li key={a} data-reveal className="display text-[clamp(2rem,5.6vw,4.4rem)] !leading-[0.98]">
-              {a}<br /><span className="text-marigold">{b}</span>
-            </li>
-          ))}
-        </ul>
-        <p data-reveal className="mt-12 max-w-[34rem] text-[1.15rem] text-white/90">
-          School wasn’t built around one child at a time. Hoshi is.
-        </p>
-      </div>
-    </section>
-  )
-}
-
-/* ---------- the model: one kite, four panels ---------- */
-function Model() {
-  return (
-    <section id="model" className="mx-auto max-w-[77.5rem] px-4 py-24 md:px-10 md:py-32">
-      <div data-reveal className="max-w-[44rem]">
-        <h2 className="display text-[clamp(2.2rem,5vw,3.8rem)]">One kite, four panels.</h2>
-        <p className="mt-5 text-ink-soft">A kite only flies when every panel is on. So does a child.</p>
-      </div>
-      <ol className="mt-14 grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4 lg:gap-x-10">
-        {PILLARS.map((p, i) => (
-          <li key={p.word} data-reveal style={{ transitionDelay: `${i * 90}ms` }} className="group text-center">
-            <div className="mx-auto w-[min(40vw,13rem)] transition-transform duration-700 ease-[var(--ease-wind)] group-hover:-translate-y-2 group-hover:rotate-3">
-              <PillarArt i={i} />
-            </div>
-            <h3 className="display mt-6 text-[1.6rem] md:text-[2rem]" style={{ color: ['#1B2A41', '#C2255C', '#8A5F0D', '#1F8A84'][i] }}>{p.word}</h3>
-            <p className="mx-auto mt-2 max-w-[15rem] text-[0.98rem] leading-snug text-ink">{p.line}</p>
-          </li>
-        ))}
-      </ol>
-    </section>
-  )
-}
-
-/* ---------- legal and recognised ---------- */
-function Legal() {
-  return (
-    <section id="legal" className="bg-paper">
-      <div className="mx-auto max-w-[77.5rem] px-4 py-24 md:px-10 md:py-32">
-        <h2 data-reveal className="display max-w-[46rem] text-[clamp(2.2rem,5vw,3.8rem)]">The four questions every parent asks.</h2>
-        <dl className="mt-14 grid gap-x-12 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-          {LEGAL.map((x, i) => (
-            <div key={x.q} data-reveal style={{ transitionDelay: `${i * 90}ms` }}>
-              <LegalIcon i={i} />
-              <dt className="mt-5 text-[1.35rem] font-extrabold leading-tight text-navy" style={{ fontStretch: '115%' }}>{x.q}</dt>
-              <dd className="mt-2 text-ink">{x.a}</dd>
-              {x.src && <dd className="mt-2 text-[0.8rem] font-semibold text-ink-soft">Source: {x.src}</dd>}
-            </div>
-          ))}
-        </dl>
-        <p className="mt-14 text-[0.85rem] text-ink-soft">General information, not legal advice. We confirm your child’s route on the call.</p>
-      </div>
-    </section>
-  )
-}
-
-/* ---------- AI and skills ---------- */
-const CHAT = [
-  ['Child', 'How far is the Sun from Earth?'],
-  ['AI', 'The Sun is about 15 million km from Earth.'],
-  ['Child', 'My textbook says 150 million km. Can you check?'],
-  ['AI', 'You’re right, I made a mistake. It is about 150 million km.'],
+const STAGES = [
+  { c: 'var(--s1)', min: 3, max: 5, name: 'Little Stars', ag: 'Age 3+', points: ['Play-based learning', 'Phonics & numbers', 'Songs & colours'], ft: '20-minute sessions with a parent' },
+  { c: 'var(--s2)', min: 6, max: 8, name: 'Rising Stars', ag: 'Age 6+', points: ['Reading & maths', 'Abacus level 1–2', 'Block coding'], ft: 'English, Maths, Music, Art' },
+  { c: 'var(--s3)', min: 9, max: 11, name: 'Bright Stars', ag: 'Age 9+', points: ['Science & languages', 'Mental math speed', 'How AI learns'], ft: 'Guided projects' },
+  { c: 'var(--s4)', min: 12, max: 13, name: 'Shining Stars', ag: 'Age 12–13', points: ['Board-aligned tuition', 'Python & data', 'Music theory'], ft: 'Personal mentor' },
+  { c: 'var(--s5)', min: 14, max: 15, name: 'Guiding Stars', ag: 'Age 14–15', points: ['Board exam preparation', 'AI projects & ethics', 'Creative portfolio'], ft: 'Career guidance' },
 ]
 
-function ChatDemo() {
-  const [ref, seen] = useInView({ threshold: 0.4 })
-  const [shown, setShown] = useState(() => (reduced() ? CHAT.length : 0))
-  useEffect(() => {
-    if (!seen || shown >= CHAT.length) return
-    const id = setTimeout(() => setShown((n) => n + 1), shown === 0 ? 200 : 1100)
-    return () => clearTimeout(id)
-  }, [seen, shown])
-  return (
-    <figure ref={ref} className="relative overflow-hidden rounded-[1.75rem] bg-navy p-6 text-white md:p-9">
-      <MiniKite className="drift absolute -right-2 top-4 w-16 opacity-30" />
-      <ol className="relative space-y-5" aria-label="Example AI lab exchange">
-        {CHAT.map(([who, text], i) => (
-          <li key={i} className={`max-w-[28rem] transition-all duration-700 ${who === 'Child' ? 'ml-auto text-right' : ''} ${i < shown ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'}`}>
-            <span className={`label block ${who === 'Child' ? 'text-marigold' : 'text-sky-deep'}`}>{who}</span>
-            <span className={`mt-1 block text-[1.1rem] leading-snug ${i === shown - 1 && i < CHAT.length - 1 ? 'caret' : ''}`}>
-              {i === 1 ? <>The Sun is about <mark className="rounded bg-rani px-1 text-white">15 million km</mark> from Earth.</> : text}
-            </span>
-          </li>
-        ))}
-      </ol>
-      <figcaption className="relative mt-8 border-t border-white/20 pt-5 text-[0.95rem] text-white/80">
-        The skill isn’t asking AI. It’s noticing when it’s wrong.
-      </figcaption>
-    </figure>
-  )
+const PROGS = [
+  { href: '#contact', c: 'academic', img: '/img/girl-reading.jpg', alt: 'Young girl reading with her teacher', tag: 'Classes 1–5', h: 'Foundational Academics', p: 'Reading, writing, numbers, EVS and science basics.' },
+  { href: '#seniors', c: 'academic', img: '/img/teen-textbook.jpg', alt: 'Teenage student studying with a textbook', tag: 'Classes 6–12', h: 'Middle & Senior Subjects', p: 'Maths, Physics, Chemistry, Biology, History, Geography, Economics, Accounts and Computer Science.' },
+  { href: '#contact', c: 'lang', img: '/img/globe.jpg', alt: 'Child pointing at a globe', tag: 'Languages', h: 'Languages', p: 'English, Hindi, Gujarati, French, Spanish and Japanese.' },
+  { href: '#skills', c: 'skill', img: '/img/coding.jpg', alt: 'Older student writing code on a computer', tag: 'Classes 6–12', h: 'AI & Future Skills', p: 'AI, coding, data and digital skills for older students.' },
+  { href: '#contact', c: 'creative', img: '/img/piano.jpg', alt: 'Young girl with headphones playing piano', tag: 'Creative', h: 'Music', p: 'Rhythm, singing, keyboard and music theory.' },
+  { href: '#contact', c: 'skill', img: '/img/abacus.jpg', alt: 'Child moving coloured beads on an abacus', tag: 'Skill', h: 'Abacus & Mental Math', p: 'A practical skill for fast, confident maths.' },
+  { href: '#contact', c: 'creative', img: '/img/painting.jpg', alt: 'Child painting with a brush and palette', tag: 'Creative', h: 'Art & Creativity', p: 'Drawing, painting, craft and design.' },
+  { href: '#teachers', c: 'academic', img: '/img/teacher-boy.jpg', alt: 'Teacher and boy drawing together at home', tag: '1 : 1', h: 'Individual Home Schooling', p: 'A dedicated teacher for your child, at home, at your timings.' },
+]
+const FILTERS = [['all', 'All'], ['academic', 'Academic'], ['lang', 'Languages'], ['creative', 'Creative'], ['skill', 'Skills']]
+
+const MEGA = {
+  'm-about': { h: 'About Hoshi', p: 'Personalised home schooling and home tuition for every child.', links: [['#about', 'What is Hoshi?'], ['#about', 'Why Hoshi?'], ['#different', 'How we are different'], ['#contact', 'Talk to a mentor']] },
+  'm-stages': { h: 'Age stages', p: 'A clear path from age 3 to 15.', links: [['#pathway', 'Little Stars · 3–5', { st: 0 }], ['#pathway', 'Rising Stars · 6–8', { st: 1 }], ['#pathway', 'Bright Stars · 9–11', { st: 2 }], ['#pathway', 'Shining Stars · 12–13', { st: 3 }], ['#pathway', 'Guiding Stars · 14–15', { st: 4 }], ['#seniors', 'Classes 10 & 12']] },
+  'm-subj': { h: 'Subjects', p: 'Every subject from Class 1 to 12, plus creative and future skills.', links: [['#subjects', 'Foundational Academics', { f: 'academic' }], ['#subjects', 'Middle & Senior Subjects', { f: 'academic' }], ['#subjects', 'Languages', { f: 'lang' }], ['#subjects', 'Music', { f: 'creative' }], ['#subjects', 'Abacus & Mental Math', { f: 'skill' }], ['#subjects', 'Art & Creativity', { f: 'creative' }], ['#subjects', 'AI & Future Skills', { f: 'skill' }], ['#subjects', 'Individual Home Schooling', { f: 'academic' }]] },
 }
 
-const Check = () => (
-  <svg viewBox="0 0 24 24" width="22" height="22" className="mt-0.5 shrink-0" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1F8A84" /><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
-)
+const ABC = [['A', 'Apple', '#8128e7'], ['B', 'Ball', '#5465f8'], ['C', 'Cat', '#008a08'], ['D', 'Duck', '#d74120']]
 
-function AISkills() {
+const say = (w) => { try { const u = new SpeechSynthesisUtterance(w); u.rate = 0.85; speechSynthesis.cancel(); speechSynthesis.speak(u) } catch { /* no speech support */ } }
+const savedLang = () => { try { const l = localStorage.getItem('hoshi-lang'); return T[l] ? l : 'en' } catch { return 'en' } }
+const Use = ({ id }) => <svg><use href={`#${id}`} /></svg>
+
+function Sprite() {
   return (
-    <section id="ai" className="mx-auto max-w-[77.5rem] px-4 py-24 md:px-10 md:py-32">
-      <div data-reveal>
-        <h2 className="display max-w-[54rem] text-[clamp(2.2rem,5vw,3.8rem)]">AI is a skill they learn, not a shortcut they take.</h2>
-        <p className="mt-5 max-w-[34rem] text-ink-soft">Every week, with a mentor beside them. Here’s an example six months.</p>
-      </div>
-
-      <ol className="relative mt-14 grid gap-7 md:grid-cols-6 md:gap-5">
-        <svg data-reveal className="pointer-events-none absolute left-0 top-[7px] hidden h-6 w-full md:block" viewBox="0 0 600 24" preserveAspectRatio="none" aria-hidden="true">
-          <path className="string-draw" d="M0 6C100 18 200 0 300 8S500 16 600 4" fill="none" stroke="#C08A1E" strokeWidth="1.5" vectorEffect="non-scaling-stroke" pathLength="1" />
-        </svg>
-        {AI_MONTHS.map(([title, d], i) => (
-          <li key={title} data-reveal style={{ transitionDelay: `${i * 80}ms` }} className="relative grid grid-cols-[auto_1fr] gap-4 md:block">
-            <svg viewBox="0 0 20 26" width="20" height="26" className="relative z-10" aria-hidden="true">
-              <path d="M10 0 20 10 10 20 0 10Z" fill={['#1B2A41', '#C2255C', '#F2A900', '#1F8A84', '#E0457B', '#1B2A41'][i]} />
-              <path d="M10 20 7 26h6Z" fill="#C9A46A" />
-            </svg>
-            <div className="md:mt-4">
-              <span className="label text-ink-soft">Month {i + 1}</span>
-              <p className="mt-1 text-[1.1rem] font-bold leading-tight text-navy">{title}</p>
-              <p className="mt-1.5 text-[0.95rem] leading-snug text-ink">{d}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-
-      <div className="mt-20 grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <ChatDemo />
-        <div data-reveal>
-          <h3 className="text-[1.6rem] font-bold leading-tight text-navy" style={{ fontStretch: '110%' }}>Safe, supervised, honest.</h3>
-          <ul className="mt-6 space-y-4 text-ink">
-            {['Always with a mentor, on supervised accounts', 'No names, photos or addresses shared', 'Every project shows what AI did', 'Parents see it in the weekly update'].map((x) => (
-              <li key={x} className="flex gap-3"><Check />{x}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <div className="mt-24">
-        <div data-reveal className="flex flex-wrap items-end justify-between gap-4">
-          <h3 className="display text-[clamp(1.8rem,3.6vw,2.6rem)]">What children make</h3>
-          <p className="text-[0.9rem] text-ink-soft">Example projects</p>
-        </div>
-        <ul className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-          {PROJECTS.map((p, i) => (
-            <li key={p.title} data-reveal style={{ transitionDelay: `${i * 90}ms` }} className="group">
-              <div className="overflow-hidden rounded-2xl transition-transform duration-700 ease-[var(--ease-wind)] group-hover:-translate-y-1.5">
-                <ProjectArt i={i} />
-              </div>
-              <div className="mt-5 flex items-baseline justify-between gap-3">
-                <h4 className="text-[1.3rem] font-extrabold leading-tight text-navy" style={{ fontStretch: '115%' }}>{p.title}</h4>
-                <span className="shrink-0 text-[0.85rem] font-semibold text-ink-soft">Age {p.age}</span>
-              </div>
-              <p className="mt-2 text-[0.98rem] leading-snug text-ink">{p.text}</p>
-              <ul className="mt-3 flex flex-wrap gap-1.5">
-                {p.tags.map((tag) => (
-                  <li key={tag} className="rounded-full px-2.5 py-0.5 text-[0.75rem] font-bold text-white" style={{ background: tag === 'AI' ? '#1B2A41' : ['#1F8A84', '#C2255C', '#8A5F0D', '#1F8A84'][i] }}>{tag}</li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  )
-}
-
-/* ---------- a week ---------- */
-const kindOf = (c) =>
-  /live/i.test(c) ? 'live' : /self/i.test(c) ? 'self' : /reading|outdoors|free/i.test(c) ? 'out' : 'make'
-
-function Week() {
-  return (
-    <section id="week" className="bg-sky-deep/45">
-      <div className="mx-auto max-w-[77.5rem] px-4 py-24 md:px-10 md:py-32">
-        <h2 className="display text-[clamp(2.2rem,5vw,3.8rem)]">What a week looks like.</h2>
-        <p className="mt-5 max-w-[36rem] text-ink-soft">A sample week for a 9 to 11 year-old.</p>
-
-        <div className="mt-12 overflow-x-auto pb-2">
-          <table className="w-full min-w-[44rem] border-separate border-spacing-1.5 text-[0.95rem]">
-            <caption className="sr-only">Sample weekly timetable</caption>
-            <thead>
-              <tr>
-                <th className="w-28" />
-                {WEEK.days.map((d) => <th key={d} scope="col" className="label pb-2 text-left text-navy">{d}</th>)}
-              </tr>
-            </thead>
-            <tbody>
-              {WEEK.rows.map((r) => (
-                <tr key={r.time}>
-                  <th scope="row" className="pr-3 text-left text-[0.85rem] font-semibold text-ink-soft">{r.time}</th>
-                  {r.cells.map((c, i) => {
-                    const k = WEEK.kinds[kindOf(c)]
-                    const dark = kindOf(c) === 'live' || kindOf(c) === 'out'
-                    return (
-                      <td key={i} className={`h-16 rounded-lg px-3 font-semibold ${dark ? 'text-white' : 'text-navy'}`} style={{ background: k.color }}>{c}</td>
-                    )
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-[0.9rem] text-ink-soft">
-          {Object.values(WEEK.kinds).map((k) => (
-            <li key={k.label} className="flex items-center gap-2"><span className="size-3 rounded-sm" style={{ background: k.color }} />{k.label}</li>
-          ))}
-        </ul>
-
-        <div className="mt-16 grid gap-12 md:grid-cols-2">
-          <div>
-            <h3 className="text-[1.4rem] font-bold text-navy" style={{ fontStretch: '110%' }}>Your role as a parent</h3>
-            <p className="mt-3 text-ink">You don’t have to teach. Stay close, and join a mentor check-in when you like.</p>
-          </div>
-          <div>
-            <h3 className="text-[1.4rem] font-bold text-navy" style={{ fontStretch: '110%' }}>Progress you can see</h3>
-            <p className="mt-3 text-ink">A short update every week, a report each term, and the work itself.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ---------- people ---------- */
-function People() {
-  return (
-    <section className="mx-auto max-w-[77.5rem] px-4 py-24 md:px-10 md:py-32">
-      <div className="grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-        <figure className="mx-auto w-[min(64vw,17rem)]">
-          <svg viewBox="0 0 200 200" className="w-full" role="img" aria-label="Portrait of Navneet Goyal, photo coming soon">
-            <polygon points="100,4 196,100 100,196 4,100" fill="#1B2A41" />
-            <polygon points="100,4 196,100 100,100" className="tissue" fill="#C2255C" fillOpacity="0.55" />
-            <text x="100" y="114" textAnchor="middle" fill="#fff" style={{ fontSize: 40, fontWeight: 800, fontStretch: '125%' }}>NG</text>
-          </svg>
-          <figcaption className="mt-3 text-center text-[0.85rem] text-ink-soft">Photo coming soon</figcaption>
-        </figure>
-        <div>
-          <h2 className="display text-[clamp(2.2rem,5vw,3.8rem)]">Meet the people behind Hoshi.</h2>
-          <blockquote className="mt-8 max-w-[40rem] text-[1.2rem] leading-relaxed text-ink md:text-[1.3rem]">
-            “Every child arrives with their own pace and their own questions. We built Hoshi so children in Gandhinagar get a serious academic base and still spend their days thinking, building and making. Call us. We’ll answer honestly, including whether Hoshi is the right fit.”
-          </blockquote>
-          <p className="mt-5 font-bold text-navy">Navneet Goyal <span className="font-semibold text-ink-soft">· Managing Director</span></p>
-        </div>
-      </div>
-
-      <div className="mt-24">
-        <h3 data-reveal className="text-[1.4rem] font-bold text-navy" style={{ fontStretch: '110%' }}>Every child has three mentors</h3>
-        <ul className="mt-8 grid gap-10 md:grid-cols-3">
-          {MENTORS.map(([role, text], i) => (
-            <li key={role} className="flex gap-4">
-              <svg viewBox="0 0 10 10" width="18" height="18" className="mt-1.5 shrink-0" aria-hidden="true"><path d="M5 0 10 5 5 10 0 5Z" fill={['#1B2A41', '#1F8A84', '#C2255C'][i]} /></svg>
-              <div>
-                <p className="text-[1.15rem] font-bold text-navy">{role}</p>
-                <p className="mt-2 text-ink">{text}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-8 text-[0.95rem] text-ink-soft">Meet the team on your counselling call.</p>
-      </div>
-    </section>
-  )
-}
-
-/* ---------- first cohort: tukkal night ---------- */
-const LANTERNS = Array.from({ length: 16 }, (_, i) => ({
-  left: (i * 37 + 7) % 96,
-  size: 14 + ((i * 7) % 18),
-  dur: 22 + ((i * 11) % 18),
-  delay: -((i * 5.3) % 30),
-  rest: 30 + ((i * 41) % 60),
-}))
-
-function FirstCohort() {
-  return (
-    <section className="relative overflow-hidden bg-night text-white">
-      <div aria-hidden="true" className="absolute inset-0">
-        {LANTERNS.map((l, i) => (
-          <span
-            key={i}
-            className="lantern absolute bottom-0 block rounded-t-[45%] rounded-b-[30%]"
-            style={{
-              left: `${l.left}%`,
-              '--rest': `${l.rest}%`,
-              width: l.size,
-              height: l.size * 1.3,
-              animationDuration: `${l.dur}s, 2.4s`,
-              animationDelay: `${l.delay}s, ${i * 0.3}s`,
-              background: 'radial-gradient(circle at 50% 70%, #FFE3A3 0%, #F7A531 45%, #C85A1B 100%)',
-              filter: `drop-shadow(0 6px ${l.size}px rgb(247 165 49 / 0.55))`,
-            }}
-          />
-        ))}
-      </div>
-      <Skyline night className="absolute inset-x-0 bottom-0 h-[240px] w-full" />
-      <div className="relative mx-auto max-w-[77.5rem] px-4 pt-28 pb-[280px] md:px-10 md:pt-40">
-        <h2 className="display max-w-[50rem] text-[clamp(2.4rem,6vw,4.8rem)] !text-white">Our first lanterns go up this year.</h2>
-        <p className="mt-8 max-w-[38rem] text-[1.15rem] leading-relaxed text-white/85">
-          On Uttarayan night, families send paper lanterns up one by one until the sky is lit. Hoshi is new, so instead of borrowed praise, our first students’ work will appear here.
-        </p>
-        <a href="#enquire" onClick={() => track('cta_click', { where: 'cohort' })} className="btn btn-gold mt-10 text-[1.05rem]">
-          Join as a founding family <Icon.arrow />
-        </a>
-      </div>
-    </section>
-  )
-}
-
-/* ---------- FAQ ---------- */
-function Faq() {
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: FAQ.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
-  }
-  return (
-    <section id="faq" className="mx-auto max-w-[77.5rem] px-4 py-24 md:px-10 md:py-32">
-      <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-        <div>
-          <h2 className="display text-[clamp(2.2rem,5vw,3.8rem)]">Everything else you’re wondering.</h2>
-          <p className="mt-5 max-w-[24rem] text-ink-soft">Can’t find your question? Ask us on <a href={waLink(WA_TEXT, 'faq')} target="_blank" rel="noopener" className="font-semibold text-navy underline">WhatsApp</a>.</p>
-        </div>
-        <div>
-          {FAQ.map(([q, a]) => (
-            <details key={q} className="group border-t border-navy/20 last:border-b">
-              <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-6 py-5 text-[1.15rem] font-bold text-navy marker:content-none [&::-webkit-details-marker]:hidden">
-                {q}
-                <Icon.plus className="shrink-0 transition-transform duration-300 group-open:rotate-45" />
-              </summary>
-              <p className="max-w-[40rem] pb-6 text-ink">{a}</p>
-            </details>
-          ))}
-        </div>
-      </div>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-    </section>
-  )
-}
-
-/* ---------- enquiry ---------- */
-const normalisePhone = (v) => v.replace(/[\s-]/g, '').replace(/^(\+91|91|0)(?=\d{10}$)/, '')
-
-function Enquiry({ plan }) {
-  const [errors, setErrors] = useState({})
-  const [sent, setSent] = useState(false)
-  const interest = INTERESTS.find((x) => x.id === plan.interest)
-
-  const submit = (e) => {
-    e.preventDefault()
-    const f = new FormData(e.currentTarget)
-    if (f.get('website')) return // honeypot
-    const name = String(f.get('name') || '').trim()
-    const phone = normalisePhone(String(f.get('phone') || ''))
-    const errs = {}
-    if (!name) errs.name = 'Please tell us your name.'
-    if (!/^[6-9]\d{9}$/.test(phone)) errs.phone = 'Enter a 10-digit Indian mobile number, like 98765 43210.'
-    setErrors(errs)
-    if (Object.keys(errs).length) {
-      e.currentTarget.querySelector(`[name="${Object.keys(errs)[0]}"]`)?.focus()
-      return
-    }
-    const msg = [
-      WA_TEXT,
-      `Parent: ${name}`,
-      `Mobile: ${phone}`,
-      `Child: ${f.get('child') || '-'}`,
-      `Language: ${f.get('language')}`,
-      `Interest: ${interest.name}`,
-      f.get('message') ? `Note: ${f.get('message')}` : '',
-    ].filter(Boolean).join('\n')
-    // ponytail: no backend yet, so the lead goes to Hoshi's WhatsApp. Swap for a serverless endpoint (Sheets + email) when hosting is chosen.
-    track('form_submit', { language: f.get('language'), interest: plan.interest })
-    window.open(waLink(msg, 'form'), '_blank', 'noopener')
-    setSent(true)
-  }
-
-  return (
-    <section id="enquire" className="bg-paper">
-      <div className="mx-auto grid max-w-[77.5rem] gap-14 px-4 py-24 md:px-10 md:py-32 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-        <div>
-          <h2 className="display text-[clamp(2.4rem,5.6vw,4.2rem)]">Book a free counselling call.</h2>
-          <p className="mt-6 max-w-[30rem] text-[1.1rem] text-ink-soft">
-            Twenty minutes with the Hoshi team. Ask anything: legality, certificates, fees, a normal day. No obligation to join.
-          </p>
-          <div className="mt-10 flex items-end gap-6">
-            <Firki className="sway w-24 md:w-28" />
-            <div className="space-y-3">
-              <a href={`tel:+91${PHONE}`} onClick={() => track('call_click', { where: 'enquiry' })} className="flex items-center gap-3 text-[1.25rem] font-bold text-navy hover:underline">
-                <Icon.phone /> 77790 91145
-              </a>
-              <a href={waLink(WA_TEXT, 'enquiry')} onClick={() => track('whatsapp_click', { where: 'enquiry' })} target="_blank" rel="noopener" className="flex items-center gap-3 text-[1.25rem] font-bold text-navy hover:underline">
-                <Icon.chat /> WhatsApp us
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {sent ? (
-          <div role="status" className="self-center rounded-[1.75rem] bg-navy p-8 text-white md:p-12">
-            <h3 className="display text-[2.2rem] !text-white">Thank you.</h3>
-            <p className="mt-4 text-[1.1rem] text-white/85">
-              Your details are ready to send in WhatsApp. Once they arrive, the Hoshi team will call you to set up your counselling session. If WhatsApp didn’t open, call us on <a className="font-bold text-marigold underline" href={`tel:+91${PHONE}`}>77790 91145</a>.
-            </p>
-          </div>
-        ) : (
-          <form onSubmit={submit} noValidate className="grid gap-5 sm:grid-cols-2" aria-label="Enquiry form">
-            <div className="sm:col-span-2">
-              <label htmlFor="name" className="mb-2 block font-semibold text-navy">Your name</label>
-              <input id="name" name="name" autoComplete="name" className="field" aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-err' : undefined} />
-              {errors.name && <p id="name-err" className="mt-2 text-[0.95rem] font-semibold text-rani">{errors.name}</p>}
-            </div>
-            <div>
-              <label htmlFor="phone" className="mb-2 block font-semibold text-navy">Mobile number</label>
-              <input id="phone" name="phone" type="tel" inputMode="numeric" autoComplete="tel-national" placeholder="98765 43210" className="field tabular-nums" aria-invalid={!!errors.phone} aria-describedby={errors.phone ? 'phone-err' : undefined} />
-              {errors.phone && <p id="phone-err" className="mt-2 text-[0.95rem] font-semibold text-rani">{errors.phone}</p>}
-            </div>
-            <div>
-              <label htmlFor="child" className="mb-2 block font-semibold text-navy">Child’s age or class</label>
-              <input id="child" name="child" defaultValue={`${plan.age} years`} key={plan.age} className="field" />
-            </div>
-            <fieldset className="sm:col-span-2">
-              <legend className="mb-2 font-semibold text-navy">Preferred language for the call</legend>
-              <div className="flex flex-wrap gap-2">
-                {['English', 'Hindi', 'Gujarati'].map((l, i) => (
-                  <label key={l} className="relative inline-flex min-h-11 cursor-pointer items-center rounded-full bg-white px-5 font-semibold text-navy shadow-[inset_0_0_0_1.5px_rgb(27_42_65/0.25)] has-[:checked]:bg-navy has-[:checked]:text-white has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-rani">
-                    <input type="radio" name="language" value={l} defaultChecked={i === 0} className="absolute inset-0 cursor-pointer opacity-0" />
-                    {l}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-            <div className="sm:col-span-2">
-              <label htmlFor="message" className="mb-2 block font-semibold text-navy">Anything you’d like us to know? <span className="font-normal text-ink-soft">(optional)</span></label>
-              <textarea id="message" name="message" rows={3} className="field resize-y" />
-            </div>
-            <div aria-hidden="true" className="absolute -left-[9999px]">
-              <label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
-            </div>
-            <div className="sm:col-span-2">
-              <button type="submit" className="btn btn-primary w-full text-[1.1rem] sm:w-auto">
-                Request my call <Icon.arrow />
-              </button>
-              <p className="mt-4 text-[0.85rem] text-ink-soft">
-                We only use these details to call you about Hoshi. We never ask for your child’s full name or photo. <a href="/privacy.html" className="font-semibold text-navy underline">Privacy policy</a>
-              </p>
-            </div>
-          </form>
-        )}
-      </div>
-    </section>
-  )
-}
-
-function Footer() {
-  return (
-    <footer className="bg-navy pb-28 text-white/80 md:pb-0">
-      <div className="mx-auto grid max-w-[77.5rem] gap-10 px-4 py-14 md:grid-cols-3 md:px-10">
-        <div>
-          <Wordmark light />
-          <p className="mt-5 font-semibold text-white">Learn. Explore. Create. Apply.</p>
-        </div>
-        <address className="not-italic leading-relaxed">
-          C/9, Patnagar Yojna Bhavan<br />Sector 16, Gandhinagar, Gujarat<br />
-          <a href="https://www.google.com/maps/search/?api=1&query=Patnagar+Yojna+Bhavan+Sector+16+Gandhinagar" target="_blank" rel="noopener" className="font-semibold text-marigold underline">Open in Maps</a>
-        </address>
-        <div className="space-y-2">
-          <a href={`tel:+91${PHONE}`} className="block font-semibold text-white hover:underline">+91 77790 91145</a>
-          <a href="/privacy.html" className="block hover:underline">Privacy policy</a>
-          <p className="pt-4 text-[0.85rem] text-white/60">© {new Date().getFullYear()} Hoshi Academy</p>
-        </div>
-      </div>
-    </footer>
-  )
-}
-
-/* ---------- sticky mobile bar: Call + WhatsApp ---------- */
-function MobileBar() {
-  const [show, setShow] = useState(false)
-  useEffect(() => {
-    const hero = document.getElementById('top')
-    const form = document.getElementById('enquire')
-    let pastHero = false, atForm = false
-    const io = new IntersectionObserver((es) => {
-      es.forEach((e) => {
-        if (e.target === hero) pastHero = !e.isIntersecting
-        if (e.target === form) atForm = e.isIntersecting
-      })
-      setShow(pastHero && !atForm)
-    })
-    io.observe(hero); io.observe(form)
-    return () => io.disconnect()
-  }, [])
-  return (
-    <div className={`fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 bg-sky p-3 shadow-[0_-8px_24px_-16px_rgb(17_28_45/0.5)] transition-transform duration-500 md:hidden ${show ? 'translate-y-0' : 'translate-y-full'}`} aria-hidden={!show}>
-      <a href={`tel:+91${PHONE}`} tabIndex={show ? 0 : -1} onClick={() => track('call_click', { where: 'bar' })} className="btn btn-primary"><Icon.phone /> Call</a>
-      <a href={waLink(WA_TEXT, 'bar')} tabIndex={show ? 0 : -1} onClick={() => track('whatsapp_click', { where: 'bar' })} target="_blank" rel="noopener" className="btn btn-gold"><Icon.chat /> WhatsApp</a>
-    </div>
+    <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true"><defs>
+      <symbol id="chev" viewBox="0 0 12 12"><path d="M1.5 4l4.5 4.5L10.5 4" fill="none" stroke="currentColor" strokeWidth="2" /></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" strokeWidth="2" /><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" fill="none" stroke="currentColor" strokeWidth="2" /></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" /><path d="M12 7v5l3 2" fill="none" stroke="currentColor" strokeWidth="2" /></symbol>
+      <symbol id="i-note" viewBox="0 0 24 24"><path d="M9 18V6l11-2v12" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="6.5" cy="18" r="2.6" fill="currentColor" /><circle cx="17.5" cy="16" r="2.6" fill="currentColor" /></symbol>
+      <symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" strokeWidth="2" /><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" stroke="currentColor" strokeWidth="2" /></symbol>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" /></symbol>
+      <symbol id="i-family" viewBox="0 0 24 24"><circle cx="8" cy="7" r="3" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="17" cy="9" r="2.4" fill="none" stroke="currentColor" strokeWidth="2" /><path d="M2 21c.8-4 3-6 6-6s5.2 2 6 6M13 21c.5-3 2-4.5 4-4.5s3.5 1.5 4 4.5" fill="none" stroke="currentColor" strokeWidth="2" /></symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" /><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" fill="none" stroke="currentColor" strokeWidth="1.6" /></symbol>
+      <symbol id="i-path" viewBox="0 0 24 24"><circle cx="5" cy="19" r="2.4" fill="currentColor" /><circle cx="19" cy="5" r="2.4" fill="currentColor" /><path d="M7 18c7 0 3-12 10-12" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="3 3" /></symbol>
+      <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M12 3a6 6 0 00-3.5 10.9V17h7v-3.1A6 6 0 0012 3zM9.5 20h5" fill="none" stroke="currentColor" strokeWidth="2" /></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.8l2.8 6 6.6.7-4.9 4.5 1.3 6.5L12 17.2 6.2 20.5l1.3-6.5-4.9-4.5 6.6-.7z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" /></symbol>
+    </defs></svg>
   )
 }
 
 export default function App() {
-  const [plan, setPlan] = useState({ age: '9–11', interest: 'science' })
+  const [lang, setLangState] = useState(savedLang)
+  const tr = (k, en) => T[lang][k] ?? en
+  // one open panel at a time: 'menu' | 'lang' | a mega id
+  const [open, setOpen] = useState(null)
+  const [others, setOthers] = useState(false)
+  const toggle = (id) => (e) => { e.stopPropagation(); setOpen((o) => (o === id ? null : id)) }
+  const closeAll = () => setOpen(null)
+
+  const [cur, setCur] = useState(0)
+  const [playing, setPlaying] = useState(() => !matchMedia('(prefers-reduced-motion: reduce)').matches)
+  const go = (i) => setCur((i + SLIDES.length) % SLIDES.length)
+
+  const [age, setAge] = useState(7)
+  const stageOf = (a) => STAGES.findIndex((s) => a >= s.min && a <= s.max)
+  const [filter, setFilter] = useState('all')
+  const [letter, setLetter] = useState(null)
+  const [sent, setSent] = useState(false)
+  const searchRef = useRef(null)
+
+  const setLang = (l) => {
+    setLangState(l)
+    try { localStorage.setItem('hoshi-lang', l) } catch { /* private mode */ }
+    closeAll()
+  }
+
+  useEffect(() => { document.documentElement.lang = lang }, [lang])
+
+  // click outside a panel or Escape closes every panel
   useEffect(() => {
-    const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && (e.target.classList.add('in'), io.unobserve(e.target))), { rootMargin: '0px 0px -10% 0px' })
-    document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el))
-    return () => io.disconnect()
+    const onClick = (e) => { if (!e.target.closest('.drop,.langmenu,.mega')) setOpen(null) }
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(null) }
+    document.addEventListener('click', onClick)
+    document.addEventListener('keydown', onKey)
+    return () => { document.removeEventListener('click', onClick); document.removeEventListener('keydown', onKey) }
   }, [])
+
+  // auto-advance every 7s; any slide change restarts the timer
+  useEffect(() => {
+    if (!playing) return
+    const id = setInterval(() => setCur((c) => (c + 1) % SLIDES.length), 7000)
+    return () => clearInterval(id)
+  }, [playing, cur])
+
+  const onSearch = () => {
+    const q = searchRef.current
+    if (getComputedStyle(q.parentElement).display === 'none') setOpen('menu')
+    else q.focus()
+  }
+  const cardLang = (e) => {
+    e.preventDefault(); e.stopPropagation()
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    setTimeout(() => setOpen('lang'), 350)
+  }
+  const megaLink = (extra) => () => {
+    closeAll()
+    if (extra?.st !== undefined) setAge(STAGES[extra.st].min)
+    if (extra?.f) setFilter(extra.f)
+  }
+
+  const globalLinks = [['#top', 'home', 'Home'], ['#pathway', 'stages', 'Age stages'], ['#subjects', 'subjects', 'Subjects'], ['#skills', 'ai', 'AI & Future Skills'], ['#about', 'why', 'Why Hoshi'], ['#contact', 'parents', 'Parents']]
+  const mobileLinks = [...globalLinks.slice(0, 5), ['#different', 'diff', 'How we are different'], globalLinks[5]]
+  const stageIdx = stageOf(age)
+
   return (
     <>
-      <a href="#enquire" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-navy focus:px-5 focus:py-3 focus:text-white">Skip to enquiry form</a>
-      <Header />
+      <Sprite />
+
+      {/* ===== Global masthead ===== */}
+      <header className="gn">
+        <div className="wrap">
+          <a className="mark" href="#top" aria-label="Hoshi home"><svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#133844" /><path d="M16 5.5l3 6.8 7.4.7-5.6 4.9 1.7 7.3L16 21.4l-6.5 3.8 1.7-7.3-5.6-4.9 7.4-.7z" fill="#3be0d0" /></svg><b style={{ fontFamily: 'var(--serif)', fontSize: 24, fontWeight: 600 }}>Hoshi</b></a>
+          <button className="signin" type="button" onClick={() => { location.hash = 'contact' }}><Use id="i-user" /><span>{tr('signin', 'Sign in')}</span></button>
+          <nav className="gl" aria-label="Global">
+            {globalLinks.map(([h, k, en]) => <a key={k} href={h}>{tr(k, en)}</a>)}
+          </nav>
+          <div className="gicons">
+            <button className="ib" type="button" aria-label="Search" onClick={onSearch}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6"><circle cx="10.5" cy="10.5" r="7" /><path d="M16 16l6 6" /></svg></button>
+            <button className="ib burger" type="button" aria-label="Menu" aria-expanded={String(open === 'menu')} aria-controls="menuPanel" onClick={toggle('menu')}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><path d="M3 6h18M3 12h18M3 18h18" /></svg></button>
+          </div>
+        </div>
+        <div className="drop" id="menuPanel" hidden={open !== 'menu'}><div className="wrap"><nav aria-label="Mobile">
+          {mobileLinks.map(([h, k, en]) => <a key={k} href={h} onClick={closeAll}>{tr(k, en)}</a>)}
+        </nav></div></div>
+      </header>
+
+      <div className="langrow"><div className="wrap">
+        <button className="langbtn" type="button" aria-expanded={String(open === 'lang')} aria-controls="langMenu" onClick={(e) => { e.preventDefault(); toggle('lang')(e) }}><b>{LANG_NAMES[lang]}</b><span>{tr('change', 'Change language')}</span><svg viewBox="0 0 12 12" fill="currentColor"><path d="M1 3.5h10L6 9z" /></svg></button>
+        <div className="langmenu" id="langMenu" hidden={open !== 'lang'} onClick={(e) => e.stopPropagation()}>
+          <h3>{tr('available', 'Available now')}</h3>
+          {['en', 'hi', 'gu'].map((l) => (
+            <button key={l} className="lng" type="button" onClick={() => setLang(l)}>
+              <span>{LANG_NAMES[l]}{l !== 'en' && <small>{l === 'hi' ? 'Hindi' : 'Gujarati'}</small>}</span><span className="tick">{l === lang ? '✓' : ''}</span>
+            </button>
+          ))}
+          <button className="otherbtn" type="button" aria-expanded={String(others)} aria-controls="otherList" onClick={() => setOthers((o) => !o)}><span>{tr('other', 'Other languages')}</span><span aria-hidden="true">{others ? '–' : '+'}</span></button>
+          <div id="otherList" hidden={!others}>
+            {OTHERS.map(([n, e]) => (
+              <button key={e} className="lng" type="button" aria-disabled="true" title={`${e}: coming soon`}>
+                <span>{n}<small>{e}</small></span>
+                <span className="soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6"><rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V8a4 4 0 018 0v3" /></svg><span>{tr('soon', 'Coming soon')}</span></span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div></div>
+
+      {/* ===== Product band ===== */}
+      <div className="pb" id="top">
+        <div className="wrap">
+          <div className="top">
+            <h2><a href="#top">{tr('hs', 'Home Schooling')}</a></h2>
+            <label className="pbsearch" htmlFor="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7" /><path d="M16 16l6 6" /></svg><span className="sr">Search</span><input id="q" ref={searchRef} type="search" placeholder={tr('search', 'Search Hoshi')} /></label>
+          </div>
+          <nav className="pnav" aria-label="Home Schooling">
+            {[['m-about', 'about', 'About Hoshi'], ['m-stages', 'stages', 'Age stages'], ['m-subj', 'subjects', 'Subjects']].map(([id, k, en]) => (
+              <div key={id}><button type="button" aria-expanded={String(open === id)} onClick={toggle(id)}><span>{tr(k, en)}</span><Use id="chev" /></button></div>
+            ))}
+            <a href="#skills">{tr('ai', 'AI & Future Skills')}</a>
+            <a href="#different">{tr('diff', 'How we are different')}</a>
+            <a href="#contact">{tr('parents', 'Parents')}</a>
+          </nav>
+        </div>
+        {Object.entries(MEGA).map(([id, m]) => (
+          <div key={id} className="mega" id={id} hidden={open !== id}><div className="wrap">
+            <div><h3>{m.h}</h3><p>{m.p}</p></div>
+            <ul>{m.links.map(([h, l, extra]) => <li key={l}><a href={h} onClick={megaLink(extra)}>{l}</a></li>)}</ul>
+          </div></div>
+        ))}
+      </div>
+
       <main>
-        <Hero plan={plan} setPlan={setPlan} />
-        <Truths />
-        <Model />
-        <Legal />
-        <AISkills />
-        <Week />
-        <People />
-        <FirstCohort />
-        <Faq />
-        <Enquiry plan={plan} />
+        {/* ===== Hero carousel ===== */}
+        <section className="hero" aria-roledescription="carousel" aria-label="Highlights">
+          {SLIDES.map((s, i) => {
+            const H = i === 0 ? 'h1' : 'p'
+            return (
+              <div key={i} className="slide" hidden={i !== cur}>
+                <div className="pic"><img className="img" src={s.img} alt={s.alt} loading="eager" /><div className="shield" aria-hidden="true"><span>{s.shield}</span></div></div>
+                <div className="copy"><H className="h">{s.hKey ? tr(s.hKey, s.h) : s.h}</H><p>{s.pKey ? tr(s.pKey, s.p) : s.p}</p><a className="btn" href={s.href}>{s.btnKey ? tr(s.btnKey, s.btn) : s.btn}</a></div>
+              </div>
+            )
+          })}
+          <div className="wrap" style={{ position: 'absolute', left: 0, right: 0, bottom: 18, pointerEvents: 'none' }}>
+            <div className="ctrl" style={{ pointerEvents: 'auto', justifyContent: 'flex-end' }}>
+              <button className="arr" type="button" aria-label="Previous slide" onClick={() => go(cur - 1)}><svg viewBox="0 0 12 12"><path d="M8 1L3 6l5 5" fill="none" stroke="currentColor" strokeWidth="2" /></svg></button>
+              {SLIDES.map((_, i) => <button key={i} className="dot" type="button" aria-label={`Slide ${i + 1}`} aria-current={String(i === cur)} onClick={() => go(i)} />)}
+              <button className="arr" type="button" aria-label="Next slide" onClick={() => go(cur + 1)}><svg viewBox="0 0 12 12"><path d="M4 1l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="2" /></svg></button>
+              <button className="pause" type="button" onClick={() => setPlaying((p) => !p)}>{playing ? 'Pause' : 'Play'}</button>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== Quick links ===== */}
+        <section className="quick">
+          <div className="wrap">
+            <h2>{tr('today', 'What would you like to do today?')}</h2>
+            <div className="qlinks">
+              <a href="#contact" className="primary">{tr('demo', 'Book a free demo for your child')}</a>
+              <a href="#pathway">Find your child&apos;s stage</a>
+              <a href="#subjects">Explore subjects</a>
+              <a href="#seniors">Classes 10 &amp; 12</a>
+              <a href="#teachers">Meet our specialists</a>
+              <a href="#different">How we are different</a>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== Mint row ===== */}
+        <section className="mintrow" id="about">
+          <div className="wrap cards3">
+            <article className="c3">
+              <div className="ph"><img className="img" src="/img/three-girls.jpg" alt="Three smiling girls of different backgrounds" loading="lazy" /></div>
+              <div className="bd">
+                <h3>{tr('what', 'What is Hoshi?')}</h3>
+                <p className="lead2">Every child is a star, and every star shines in its own way.</p>
+                <p>A modern home schooling platform where every child learns at their own pace, with their own teacher.</p>
+                <a className="lbtn" href="#pathway">Read more</a>
+              </div>
+            </article>
+            <article className="c3">
+              <div className="bd">
+                <h3>{tr('why', 'Why Hoshi?')}</h3>
+                <div className="qa">
+                  <details><summary>What problem does Hoshi solve?</summary><p>Rote learning, exam stress and no time for creative or digital skills.</p></details>
+                  <details><summary>Why does my child need it?</summary><p>One classroom pace can&apos;t fit every child. Hoshi plans around yours.</p></details>
+                  <details><summary>What do parents get?</summary><p>A weekly plan, progress updates and a personal mentor.</p></details>
+                  <details><summary>What is the vision?</summary><p>Curious, confident children who think for themselves.</p></details>
+                  <details><summary>Why not traditional learning?</summary><p>More attention, more skills, flexible timings, your language.</p></details>
+                </div>
+                <a className="lbtn" href="#different">How we are different</a>
+              </div>
+            </article>
+            <article className="c3">
+              <div className="ph"><img className="img" src="/img/abc-tiles.jpg" alt="Wooden alphabet tiles A, B and C" loading="lazy" /></div>
+              <div className="bd">
+                <h3>Learn in your language</h3>
+                <div className="abcd" aria-label="Tap a letter to hear it">
+                  {ABC.map(([l, w, k]) => (
+                    <button key={l} type="button" style={{ '--k': k }} aria-pressed={letter === null ? undefined : String(letter === l)} onClick={() => { setLetter(l); say(`${l} is for ${w}`) }}>{l}</button>
+                  ))}
+                </div>
+                <p className="abcw" aria-live="polite">
+                  {letter === null ? <>Tap a letter: <b>A</b> is for <b>Apple</b></> : <><b>{letter}</b> is for <b>{ABC.find((x) => x[0] === letter)[1]}</b></>}
+                </p>
+                <p>First lessons and parent updates in English, हिन्दी or ગુજરાતી.</p>
+                <button className="lbtn" type="button" onClick={cardLang}>Change language</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        {/* ===== Pathway ===== */}
+        <section className="path" id="pathway">
+          <div className="wrap">
+            <div className="ptitle">
+              <span className="lg">Hoshi<br />Pathway<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 4l28 16L6 36z" fill="none" stroke="#00bdb6" strokeWidth="5" strokeLinejoin="round" /></svg></span>
+              <p>{tr('pathP', 'A clear path for learning at home from age 3 to 15')}</p>
+            </div>
+            <div className="stages">
+              {STAGES.map((s, i) => (
+                <button key={s.name} type="button" className="st" style={{ '--c': s.c }} aria-pressed={String(i === stageIdx)} onClick={() => setAge(s.min)}>
+                  <span className="hd"><small>Hoshi</small>{s.name}</span><span className="ag">{s.ag}</span>
+                  <ul>{s.points.map((p) => <li key={p}>{p}</li>)}</ul>
+                  <span className="ft">{s.ft}</span>
+                </button>
+              ))}
+            </div>
+            <div className="finder">
+              <label htmlFor="age">{tr('finder', "Your child's age")}</label>
+              <input id="age" type="range" min="3" max="15" value={age} onChange={(e) => setAge(+e.target.value)} />
+              <output htmlFor="age">{age} years · {STAGES[stageIdx].name}</output>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== Senior students (Classes 10 & 12) ===== */}
+        <section className="seniors" id="seniors">
+          <div className="wrap sgrid">
+            <div className="sphoto"><img className="img" src="/img/teen-desk.jpg" alt="Teenage student at a desk with notes" loading="lazy" /><span className="sbadge">Classes 10 &amp; 12</span></div>
+            <div className="scopy">
+              <span className="eyebrow">Senior students</span>
+              <h2>Board exam ready, with a tutor for every subject</h2>
+              <p>One-to-one teaching for the two years that matter most.</p>
+              <ul className="checks">
+                <li><b>Subject specialists</b> for Maths, Physics, Chemistry, Biology, Accounts, Economics and more</li>
+                <li><b>Board-aligned plans</b> for CBSE, ICSE, state boards and international curricula</li>
+                <li><b>Past papers and mock exams</b> with detailed feedback</li>
+                <li><b>Stream and career guidance</b> for what comes next</li>
+              </ul>
+              <div className="ctas2"><a className="btn" href="#contact">{tr('demo', 'Book a free demo for your child')}</a><a className="btn o2" href="#teachers">Meet our specialists</a></div>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== Subjects rail ===== */}
+        <section className="subj" id="subjects">
+          <div className="wrap">
+            <div className="shead">
+              <div><h2>{tr('subjH', 'Subjects')}</h2><p>Every subject from Class 1 to 12, plus creative and future skills</p></div>
+              <div className="filters">
+                {FILTERS.map(([f, l]) => <button key={f} type="button" aria-pressed={String(filter === f)} onClick={() => setFilter(f)}>{l}</button>)}
+              </div>
+            </div>
+            <div className="rail">
+              {PROGS.map((p) => (
+                <a key={p.h} className="prog" href={p.href} hidden={!(filter === 'all' || p.c === filter)}>
+                  <div className="ph"><img className="img" src={p.img} alt={p.alt} loading="lazy" /><span className="tag">{p.tag}</span></div>
+                  <h3>{p.h}</h3><p>{p.p}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== Colour tiles ===== */}
+        <section className="tiles" id="skills">
+          <div className="wrap t4">
+            <article className="tile t-navy">
+              <div className="tx"><h3>{tr('ai', 'AI & Future Skills')}</h3><p>Older students learn to understand, build with and question technology.</p>
+                <div className="chips">{['AI concepts', 'Technology', 'Problem solving', 'Digital skills', 'Creativity', 'Critical thinking'].map((c) => <span key={c}>{c}</span>)}</div>
+                <a className="go" href="#contact">Plan your child&apos;s path →</a></div>
+              <div className="vis"><div className="frame sh"><img className="img" src="/img/coding.jpg" alt="Older student writing code on a computer" loading="lazy" /></div></div>
+            </article>
+            <article className="tile t-mint">
+              <div className="tx"><h3>{tr('music', 'Music')}</h3><p>Listening, rhythm and memory through singing and instruments.</p><a className="go" href="#contact">Explore music →</a></div>
+              <div className="vis"><div className="frame"><img className="img" src="/img/piano.jpg" alt="Young girl with headphones playing piano" loading="lazy" /></div></div>
+            </article>
+            <article className="tile t-aqua">
+              <div className="tx"><h3>Abacus &amp; Mental Math</h3><p>From beads to picturing the abacus in the mind. A skill for life.</p><a className="go" href="#contact">Explore abacus →</a></div>
+              <div className="vis"><div className="frame"><img className="img" src="/img/abacus.jpg" alt="Child moving coloured beads on an abacus" loading="lazy" /></div></div>
+            </article>
+            <article className="tile t-sun">
+              <div className="tx"><h3>Art &amp; Creativity</h3><p>Observation, expression and design, with a portfolio parents can see.</p><a className="go" href="#contact">Explore art →</a></div>
+              <div className="vis"><div className="frame sh"><img className="img" src="/img/paint-face.jpg" alt="Laughing child with paint on her face" loading="lazy" /></div></div>
+            </article>
+          </div>
+        </section>
+
+        {/* ===== Different ===== */}
+        <section className="diffs" id="different">
+          <div className="wrap">
+            <div className="dfeature"><img className="img" src="/img/one-to-one.jpg" alt="Teacher reading a book one-to-one with a boy" loading="lazy" />
+              <div className="dstats">
+                <div><b>1 : 1</b><span>One teacher, one child</span></div>
+                <div><b>100%</b><span>Personal learning plan</span></div>
+                <div><b>Weekly</b><span>Progress update for parents</span></div>
+              </div>
+            </div>
+            <div className="dsplit">
+              <div><span className="eyebrow">{tr('diff', 'How we are different')}</span><h2>{tr('diffH', "Your child gets a teacher's full attention")}</h2><p className="dlead">In a classroom, one teacher shares their time with 30 children. At Hoshi, every lesson is planned and taught for your child alone.</p><a className="btn" href="#contact">{tr('demo', 'Book a free demo for your child')}</a></div>
+              <ul className="checks">
+                <li><b>Personalised learning:</b> a plan built around your child&apos;s level, pace and interests.</li>
+                <li><b>Individual attention:</b> no waiting and no hiding at the back. Doubts are cleared the moment they come up.</li>
+                <li><b>Academics plus creativity:</b> school subjects alongside music, art, abacus and AI skills.</li>
+                <li><b>Flexible timings at home:</b> lessons fit your family&apos;s routine.</li>
+                <li><b>Parents stay involved:</b> clear weekly updates and a mentor you can talk to.</li>
+                <li><b>Multilingual learning:</b> teaching in English, Hindi or Gujarati, with French, Spanish and Japanese as subjects.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== Specialists ===== */}
+        <section className="teachers" id="teachers">
+          <div className="wrap">
+            <div className="tcard">
+              <div className="tphoto"><img className="img" src="/img/teacher.jpg" alt="Teacher working one-to-one with a young student" loading="lazy" /></div>
+              <div className="tbody">
+                <span className="eyebrow">Specialists &amp; teacher quality</span>
+                <h2>Teachers you can trust with your child</h2>
+                <div className="tpoints">
+                  <div><Use id="i-star" /><b>Subject specialists</b><span>Each subject is taught by a trained specialist, from phonics to Class 12 Physics.</span></div>
+                  <div><Use id="i-user" /><b>Carefully selected</b><span>Qualified, experienced and background-verified before they meet your child.</span></div>
+                  <div><Use id="i-bulb" /><b>Trained in the Hoshi method</b><span>Child-first, concept-based teaching with clear lesson plans.</span></div>
+                  <div><Use id="i-path" /><b>Quality checked</b><span>Regular lesson reviews and parent feedback keep standards high.</span></div>
+                </div>
+                <a className="btn" href="#contact">Try a free demo class</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== CTA ===== */}
+        <section className="cta" id="contact">
+          <div className="wrap">
+            <div><img className="ctaimg" src="/img/laptop.jpg" alt="Girl with headphones learning on a laptop at home" loading="lazy" /><h2>{tr('ctaH', 'Book a free demo for your child')}</h2><p>Meet your child&apos;s teacher, try a lesson and get a personal learning plan.</p></div>
+            <form onSubmit={(e) => { e.preventDefault(); setSent(true) }}>
+              <div className="row"><label htmlFor="pn">Parent&apos;s name<input id="pn" required autoComplete="name" /></label><label htmlFor="ph">Phone / WhatsApp<input id="ph" type="tel" required autoComplete="tel" /></label></div>
+              <div className="row">
+                <label htmlFor="ca">Child&apos;s age<select id="ca" defaultValue="6–8">{['3–5', '6–8', '9–11', '12–13', '14–15', 'Class 10', 'Class 12'].map((o) => <option key={o}>{o}</option>)}</select></label>
+                <label htmlFor="pl">Language<select id="pl">{['English', 'हिन्दी', 'ગુજરાતી'].map((o) => <option key={o}>{o}</option>)}</select></label>
+              </div>
+              <button className="btn" type="submit">{tr('demo', 'Book a free demo for your child')}</button>
+              <p className="ok" hidden={!sent}>Thank you. This is a design preview, so nothing was sent.</p>
+            </form>
+          </div>
+        </section>
       </main>
-      <Footer />
-      <MobileBar />
+
+      <footer><div className="wrap">
+        <div className="fg">
+          <div><h4>Hoshi Home Schooling</h4><p>Learn. Explore. Create. Apply.</p></div>
+          <div><h4>Learn</h4><a href="#subjects">Subjects</a><a href="#skills">AI &amp; Future Skills</a><a href="#pathway">Age stages</a></div>
+          <div><h4>About</h4><a href="#about">What is Hoshi?</a><a href="#about">Why Hoshi</a><a href="#different">How we are different</a><a href="#teachers">Teacher quality</a></div>
+          <div><h4>Parents</h4><a href="#contact">Book a free demo</a><a href="#teachers">Our specialists</a><a href="#seniors">Classes 10 &amp; 12</a></div>
+        </div>
+        <div className="fb"><span>© 2026 Hoshi Home Schooling · Photos: Unsplash</span><div className="fl">{['en', 'hi', 'gu'].map((l) => <button key={l} type="button" onClick={() => setLang(l)}>{LANG_NAMES[l]}</button>)}</div></div>
+      </div></footer>
     </>
   )
 }
