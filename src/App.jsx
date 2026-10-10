@@ -3,16 +3,17 @@ import { useEffect, useRef, useState } from 'react'
 /* ---------- copy: English lives in the markup, these replace the tagged strings ---------- */
 const T = {
   en: {},
-  hi: { signin: 'साइन इन', home: 'होम', stages: 'आयु वर्ग', subjects: 'विषय', ai: 'AI और भविष्य के कौशल', why: 'होशी क्यों?', parents: 'अभिभावक', diff: 'हम अलग कैसे हैं', about: 'होशी के बारे में', search: 'होशी में खोजें', change: 'भाषा बदलें', available: 'अभी उपलब्ध', other: 'अन्य भाषाएँ', soon: 'जल्द आ रहा है', hs: 'होम स्कूलिंग', music: 'संगीत', h1: 'कक्षा से आगे की पढ़ाई', heroP: '3–15 वर्ष के बच्चों के लिए व्यक्तिगत होम स्कूलिंग और होम ट्यूशन।', cta: 'निःशुल्क परामर्श बुक करें', demo: 'अपने बच्चे के लिए निःशुल्क डेमो बुक करें', today: 'आज आप क्या करना चाहेंगे?', what: 'होशी क्या है?', pathP: '3 से 16 वर्ष तक घर पर सीखने की स्पष्ट राह', finder: 'आपके बच्चे की उम्र', subjH: 'विषय', diffH: 'आपके बच्चे पर शिक्षक का पूरा ध्यान', ctaH: 'अपने बच्चे के लिए निःशुल्क डेमो बुक करें' },
-  gu: { signin: 'સાઇન ઇન', home: 'હોમ', stages: 'વય જૂથ', subjects: 'વિષયો', ai: 'AI અને ભવિષ્યના કૌશલ્યો', why: 'હોશી શા માટે?', parents: 'વાલીઓ', diff: 'અમે કેવી રીતે અલગ છીએ', about: 'હોશી વિશે', search: 'હોશીમાં શોધો', change: 'ભાષા બદલો', available: 'હમણાં ઉપલબ્ધ', other: 'અન્ય ભાષાઓ', soon: 'ટૂંક સમયમાં', hs: 'હોમ સ્કૂલિંગ', music: 'સંગીત', h1: 'વર્ગખંડથી આગળનું શિક્ષણ', heroP: '3–15 વર્ષનાં બાળકો માટે વ્યક્તિગત હોમ સ્કૂલિંગ અને હોમ ટ્યુશન.', cta: 'મફત પરામર્શ બુક કરો', demo: 'તમારા બાળક માટે મફત ડેમો બુક કરો', today: 'આજે તમે શું કરવા માંગો છો?', what: 'હોશી શું છે?', pathP: '3 થી 16 વર્ષ સુધી ઘરે શીખવાનો સ્પષ્ટ માર્ગ', finder: 'તમારા બાળકની ઉંમર', subjH: 'વિષયો', diffH: 'તમારા બાળક પર શિક્ષકનું પૂરું ધ્યાન', ctaH: 'તમારા બાળક માટે મફત ડેમો બુક કરો' },
+  hi: { signin: 'साइन इन', home: 'होम', stages: 'आयु वर्ग', subjects: 'विषय', ai: 'AI और भविष्य के कौशल', why: 'होशी क्यों?', parents: 'अभिभावक', diff: 'हम अलग कैसे हैं', about: 'होशी के बारे में', search: 'होशी में खोजें', change: 'भाषा बदलें', available: 'अभी उपलब्ध', other: 'अन्य भाषाएँ', soon: 'जल्द आ रहा है', hs: 'होम स्कूलिंग', music: 'संगीत', h1: 'कक्षा से आगे की पढ़ाई', heroP: '3–15 वर्ष के बच्चों के लिए व्यक्तिगत होम स्कूलिंग और होम ट्यूशन।', cta: 'निःशुल्क परामर्श बुक करें', demo: 'अपने बच्चे के लिए निःशुल्क डेमो क्लास बुक करें', today: 'आज आप क्या करना चाहेंगे?', what: 'होशी क्या है?', pathP: '3 से 16 वर्ष तक घर पर सीखने की स्पष्ट राह', finder: 'आपके बच्चे की उम्र', subjH: 'विषय', diffH: 'आपके बच्चे पर शिक्षक का पूरा ध्यान', ctaH: 'अपने बच्चे के लिए निःशुल्क डेमो क्लास बुक करें' },
+  gu: { signin: 'સાઇન ઇન', home: 'હોમ', stages: 'વય જૂથ', subjects: 'વિષયો', ai: 'AI અને ભવિષ્યના કૌશલ્યો', why: 'હોશી શા માટે?', parents: 'વાલીઓ', diff: 'અમે કેવી રીતે અલગ છીએ', about: 'હોશી વિશે', search: 'હોશીમાં શોધો', change: 'ભાષા બદલો', available: 'હમણાં ઉપલબ્ધ', other: 'અન્ય ભાષાઓ', soon: 'ટૂંક સમયમાં', hs: 'હોમ સ્કૂલિંગ', music: 'સંગીત', h1: 'વર્ગખંડથી આગળનું શિક્ષણ', heroP: '3–15 વર્ષનાં બાળકો માટે વ્યક્તિગત હોમ સ્કૂલિંગ અને હોમ ટ્યુશન.', cta: 'મફત પરામર્શ બુક કરો', demo: 'તમારા બાળક માટે મફત ડેમો ક્લાસ બુક કરો', today: 'આજે તમે શું કરવા માંગો છો?', what: 'હોશી શું છે?', pathP: '3 થી 16 વર્ષ સુધી ઘરે શીખવાનો સ્પષ્ટ માર્ગ', finder: 'તમારા બાળકની ઉંમર', subjH: 'વિષયો', diffH: 'તમારા બાળક પર શિક્ષકનું પૂરું ધ્યાન', ctaH: 'તમારા બાળક માટે મફત ડેમો ક્લાસ બુક કરો' },
 }
 const LANG_NAMES = { en: 'English', hi: 'हिन्दी', gu: 'ગુજરાતી' }
 const OTHERS = [['मराठी', 'Marathi'], ['বাংলা', 'Bengali'], ['தமிழ்', 'Tamil'], ['తెలుగు', 'Telugu'], ['ಕನ್ನಡ', 'Kannada'], ['ਪੰਜਾਬੀ', 'Punjabi'], ['اردو', 'Urdu'], ['Español', 'Spanish']]
 
 const SLIDES = [
-  { img: '/img/hero-drawing.jpg', alt: 'Parent and daughter drawing together at home', shield: <>Every child is a <b>star</b></>, h: 'Learning beyond classrooms', hKey: 'h1', p: 'Personalised home schooling and home tuition for ages 3–15.', pKey: 'heroP', btn: 'Book a free demo for your child', btnKey: 'demo', href: '#contact' },
   { img: '/img/paint-face.jpg', alt: 'Laughing child with paint on her face', shield: <>Music, Art <b>&amp; Abacus</b></>, h: 'More than textbooks', p: 'Creative and practical skills, taught by specialists, every week.', btn: 'Explore subjects', href: '#subjects' },
-  { img: '/img/teen-textbook.jpg', alt: 'Teenage student studying with a textbook', shield: <>Classes <b>10 &amp; 12</b></>, h: 'Board exam ready', p: 'Expert subject tutors and a clear plan for Classes 10 and 12.', btn: 'See senior programme', href: '#seniors' },
+  { img: '/img/hero-drawing.jpg', alt: 'Parent and daughter drawing together at home', shield: <>Every child is a <b>star</b></>, h: 'Learning beyond classrooms', hKey: 'h1', p: 'Personalised home schooling and home tuition for ages 3–15.', pKey: 'heroP', btn: 'Book free demo classes for your child', btnKey: 'demo', href: '#contact' },
+  { img: '/img/teen-studying-home.jpg', alt: 'Teenage student writing notes at his desk at home', shield: <>Classes <b>10 &amp; 12</b></>, h: 'Board exam ready', p: 'Expert subject tutors and a clear plan for Classes 10 and 12.', btn: 'See senior programme', href: '#seniors' },
+  { img: '/img/coding.jpg', alt: 'Older student writing code on a computer', shield: <>AI <b>&amp; Coding</b></>, h: 'Ready for the future', p: 'AI, coding and digital skills, taught safely for older students.', btn: 'Explore AI & Future Skills', href: '#skills' },
 ]
 
 const STAGES = [
@@ -25,13 +26,13 @@ const STAGES = [
 
 const PROGS = [
   { href: '#contact', c: 'academic', img: '/img/girl-reading.jpg', alt: 'Young girl reading with her teacher', tag: 'Classes 1–5', h: 'Foundational Academics', p: 'Reading, writing, numbers, EVS and science basics.' },
-  { href: '#seniors', c: 'academic', img: '/img/teen-textbook.jpg', alt: 'Teenage student studying with a textbook', tag: 'Classes 6–12', h: 'Middle & Senior Subjects', p: 'Maths, Physics, Chemistry, Biology, History, Geography, Economics, Accounts and Computer Science.' },
-  { href: '#contact', c: 'lang', img: '/img/globe.jpg', alt: 'Child pointing at a globe', tag: 'Languages', h: 'Languages', p: 'English, Hindi, Gujarati, French, Spanish and Japanese.' },
+  { href: '#seniors', c: 'academic', img: '/img/teen-textbook.jpg', alt: 'Teenage student studying with a textbook', tag: 'Classes 6–12', h: 'Middle & Senior Subjects', p: 'All core and elective subjects, taught by qualified subject specialists.' },
+  { href: '#contact', c: 'lang', img: '/img/globe.jpg', alt: 'Child pointing at a globe', tag: 'Languages', h: 'Languages', p: 'English, Hindi, Gujarati and other supported languages.' },
   { href: '#skills', c: 'skill', img: '/img/coding.jpg', alt: 'Older student writing code on a computer', tag: 'Classes 6–12', h: 'AI & Future Skills', p: 'AI, coding, data and digital skills for older students.' },
   { href: '#contact', c: 'creative', img: '/img/piano.jpg', alt: 'Young girl with headphones playing piano', tag: 'Creative', h: 'Music', p: 'Rhythm, singing, keyboard and music theory.' },
   { href: '#contact', c: 'skill', img: '/img/abacus.jpg', alt: 'Child moving coloured beads on an abacus', tag: 'Skill', h: 'Abacus & Mental Math', p: 'A practical skill for fast, confident maths.' },
   { href: '#contact', c: 'creative', img: '/img/painting.jpg', alt: 'Child painting with a brush and palette', tag: 'Creative', h: 'Art & Creativity', p: 'Drawing, painting, craft and design.' },
-  { href: '#teachers', c: 'academic', img: '/img/teacher-boy.jpg', alt: 'Teacher and boy drawing together at home', tag: '1 : 1', h: 'Individual Home Schooling', p: 'A dedicated teacher for your child, at home, at your timings.' },
+  { href: '#teachers', c: 'academic', img: '/img/teacher-boy.jpg', alt: 'Teacher and boy drawing together at home', tag: 'Personalized', h: 'Individual Home Schooling', p: 'A dedicated teacher for your child, at home, at your timings.' },
 ]
 const FILTERS = [['all', 'All'], ['academic', 'Academic'], ['lang', 'Languages'], ['creative', 'Creative'], ['skill', 'Skills']]
 
@@ -200,7 +201,7 @@ export default function App() {
         {/* ===== Hero carousel ===== */}
         <section className="hero" aria-roledescription="carousel" aria-label="Highlights">
           {SLIDES.map((s, i) => {
-            const H = i === 0 ? 'h1' : 'p'
+            const H = s.hKey === 'h1' ? 'h1' : 'p' // the page heading stays on the 'Learning beyond classrooms' slide
             return (
               <div key={i} className="slide" hidden={i !== cur}>
                 <div className="pic"><img className="img" src={s.img} alt={s.alt} loading="eager" /><div className="shield" aria-hidden="true"><span>{s.shield}</span></div></div>
@@ -223,7 +224,7 @@ export default function App() {
           <div className="wrap">
             <h2>{tr('today', 'What would you like to do today?')}</h2>
             <div className="qlinks">
-              <a href="#contact" className="primary">{tr('demo', 'Book a free demo for your child')}</a>
+              <a href="#contact" className="primary">{tr('demo', 'Book free demo classes for your child')}</a>
               <a href="#pathway">Find your child&apos;s stage</a>
               <a href="#subjects">Explore subjects</a>
               <a href="#seniors">Classes 10 &amp; 12</a>
@@ -270,7 +271,7 @@ export default function App() {
                 <p className="abcw" aria-live="polite">
                   {letter === null ? <>Tap a letter: <b>A</b> is for <b>Apple</b></> : <><b>{letter}</b> is for <b>{ABC.find((x) => x[0] === letter)[1]}</b></>}
                 </p>
-                <p>First lessons and parent updates in English, हिन्दी or ગુજરાતી.</p>
+                <p>Lessons and progress reports available in English, Hindi and Gujarati.</p>
                 <button className="lbtn" type="button" onClick={cardLang}>Change language</button>
               </div>
             </article>
@@ -310,12 +311,12 @@ export default function App() {
               <h2>Board exam ready, with a tutor for every subject</h2>
               <p>One-to-one teaching for the two years that matter most.</p>
               <ul className="checks">
-                <li><b>Subject specialists</b> for Maths, Physics, Chemistry, Biology, Accounts, Economics and more</li>
+                <li><b>Subject specialists</b> for all core and elective subjects</li>
                 <li><b>Board-aligned plans</b> for CBSE, ICSE, state boards and international curricula</li>
                 <li><b>Past papers and mock exams</b> with detailed feedback</li>
                 <li><b>Stream and career guidance</b> for what comes next</li>
               </ul>
-              <div className="ctas2"><a className="btn" href="#contact">{tr('demo', 'Book a free demo for your child')}</a><a className="btn o2" href="#teachers">Meet our specialists</a></div>
+              <div className="ctas2"><a className="btn" href="#contact">{tr('demo', 'Book free demo classes for your child')}</a><a className="btn o2" href="#teachers">Meet our specialists</a></div>
             </div>
           </div>
         </section>
@@ -369,13 +370,13 @@ export default function App() {
           <div className="wrap">
             <div className="dfeature"><img className="img" src="/img/one-to-one.jpg" alt="Teacher reading a book one-to-one with a boy" loading="lazy" />
               <div className="dstats">
-                <div><b>1 : 1</b><span>One teacher, one child</span></div>
+                <div><b>Personalized</b><span>One teacher, one child</span></div>
                 <div><b>100%</b><span>Personal learning plan</span></div>
                 <div><b>Weekly</b><span>Progress update for parents</span></div>
               </div>
             </div>
             <div className="dsplit">
-              <div><span className="eyebrow">{tr('diff', 'How we are different')}</span><h2>{tr('diffH', "Your child gets a teacher's full attention")}</h2><p className="dlead">In a classroom, one teacher shares their time with 30 children. At Hoshi, every lesson is planned and taught for your child alone.</p><a className="btn" href="#contact">{tr('demo', 'Book a free demo for your child')}</a></div>
+              <div><span className="eyebrow">{tr('diff', 'How we are different')}</span><h2>{tr('diffH', "Your child gets a teacher's full attention")}</h2><p className="dlead">In a classroom, one teacher shares their time with 30 children. At Hoshi, every lesson is planned and taught for your child alone.</p><a className="btn" href="#contact">{tr('demo', 'Book free demo classes for your child')}</a></div>
               <ul className="checks">
                 <li><b>Personalised learning:</b> a plan built around your child&apos;s level, pace and interests.</li>
                 <li><b>Individual attention:</b> no waiting and no hiding at the back. Doubts are cleared the moment they come up.</li>
@@ -392,12 +393,12 @@ export default function App() {
         <section className="teachers" id="teachers">
           <div className="wrap">
             <div className="tcard">
-              <div className="tphoto"><img className="img" src="/img/teacher.jpg" alt="Teacher working one-to-one with a young student" loading="lazy" /></div>
+              <div className="tphoto"><img className="img" src="/img/teacher.jpg" alt="Personalized one-to-one Hoshi home tutoring lesson with a child" loading="lazy" /></div>
               <div className="tbody">
                 <span className="eyebrow">Specialists &amp; teacher quality</span>
                 <h2>Teachers you can trust with your child</h2>
                 <div className="tpoints">
-                  <div><Use id="i-star" /><b>Subject specialists</b><span>Each subject is taught by a trained specialist, from phonics to Class 12 Physics.</span></div>
+                  <div><Use id="i-star" /><b>Subject specialists</b><span>Every subject is taught by a qualified, experienced subject specialist.</span></div>
                   <div><Use id="i-user" /><b>Carefully selected</b><span>Qualified, experienced and background-verified before they meet your child.</span></div>
                   <div><Use id="i-bulb" /><b>Trained in the Hoshi method</b><span>Child-first, concept-based teaching with clear lesson plans.</span></div>
                   <div><Use id="i-path" /><b>Quality checked</b><span>Regular lesson reviews and parent feedback keep standards high.</span></div>
@@ -411,14 +412,14 @@ export default function App() {
         {/* ===== CTA ===== */}
         <section className="cta" id="contact">
           <div className="wrap">
-            <div><img className="ctaimg" src="/img/laptop.jpg" alt="Girl with headphones learning on a laptop at home" loading="lazy" /><h2>{tr('ctaH', 'Book a free demo for your child')}</h2><p>Meet your child&apos;s teacher, try a lesson and get a personal learning plan.</p></div>
+            <div><img className="ctaimg" src="/img/laptop.jpg" alt="In-person Hoshi tutor conducting a physical home visit demo lesson" loading="lazy" /><h2>{tr('ctaH', 'Book free demo classes for your child')}</h2><p>Meet your child&apos;s teacher, try a lesson and get a personal learning plan.</p></div>
             <form onSubmit={(e) => { e.preventDefault(); setSent(true) }}>
               <div className="row"><label htmlFor="pn">Parent&apos;s name<input id="pn" required autoComplete="name" /></label><label htmlFor="ph">Phone / WhatsApp<input id="ph" type="tel" required autoComplete="tel" /></label></div>
               <div className="row">
                 <label htmlFor="ca">Child&apos;s age<select id="ca" defaultValue="6–8">{['3–5', '6–8', '9–11', '12–13', '14–15', 'Class 10', 'Class 12'].map((o) => <option key={o}>{o}</option>)}</select></label>
                 <label htmlFor="pl">Language<select id="pl">{['English', 'हिन्दी', 'ગુજરાતી'].map((o) => <option key={o}>{o}</option>)}</select></label>
               </div>
-              <button className="btn" type="submit">{tr('demo', 'Book a free demo for your child')}</button>
+              <button className="btn" type="submit">{tr('demo', 'Book free demo classes for your child')}</button>
               <p className="ok" hidden={!sent}>Thank you. This is a design preview, so nothing was sent.</p>
             </form>
           </div>
@@ -430,7 +431,7 @@ export default function App() {
           <div><h4>Hoshi Home Schooling</h4><p>Learn. Explore. Create. Apply.</p></div>
           <div><h4>Learn</h4><a href="#subjects">Subjects</a><a href="#skills">AI &amp; Future Skills</a><a href="#pathway">Age stages</a></div>
           <div><h4>About</h4><a href="#about">What is Hoshi?</a><a href="#about">Why Hoshi</a><a href="#different">How we are different</a><a href="#teachers">Teacher quality</a></div>
-          <div><h4>Parents</h4><a href="#contact">Book a free demo</a><a href="#teachers">Our specialists</a><a href="#seniors">Classes 10 &amp; 12</a></div>
+          <div><h4>Parents</h4><a href="#contact">Book free demo classes</a><a href="#teachers">Our specialists</a><a href="#seniors">Classes 10 &amp; 12</a></div>
         </div>
         <div className="fb"><span>© 2026 Hoshi Home Schooling · Photos: Unsplash</span><div className="fl">{['en', 'hi', 'gu'].map((l) => <button key={l} type="button" onClick={() => setLang(l)}>{LANG_NAMES[l]}</button>)}</div></div>
       </div></footer>

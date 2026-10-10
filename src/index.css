@@ -70,19 +70,21 @@ button{font-family:inherit}
 .otherbtn{display:flex;justify-content:space-between;width:100%;background:none;border:0;border-top:1px solid #23495a;color:var(--mint);font-weight:700;font-size:14px;padding:11px 16px;cursor:pointer;margin-top:4px}
 
 /* ===== Cambridge-style product band ===== */
-.pb{background:var(--mint-bg);border-top:1px solid var(--mint-2);border-bottom:1px solid var(--mint-2);position:sticky;top:env(safe-area-inset-top,0px);z-index:40}
+/* navbar uses the button hover colour (--aqua), with the button's dark text */
+.pb{background:var(--aqua);border-top:1px solid rgba(11,39,48,.15);border-bottom:1px solid rgba(11,39,48,.15);position:sticky;top:env(safe-area-inset-top,0px);z-index:40}
 .pb .top{display:flex;align-items:center;gap:16px;padding-block:12px}
 .pb h2{font-family:var(--serif);font-weight:400;font-size:clamp(24px,3vw,32px);color:var(--teal);letter-spacing:-.01em}
+.pb h2,.pb h2 a{color:var(--navy-d)}
 .pb h2 a{text-decoration:none}
-.pbsearch{margin-left:auto;display:flex;align-items:center;background:#fff;border:1px solid var(--mint-2);width:min(300px,40vw)}
+.pbsearch{margin-left:auto;display:flex;align-items:center;background:#fff;border:1px solid #fff;width:min(300px,40vw)}
 .pbsearch input{border:0;font:inherit;font-size:15px;padding:8px 10px;width:100%;outline:none;background:none;color:var(--ink)}
 .pbsearch svg{width:18px;height:18px;margin-left:10px;flex:none;color:#7aa}
 @media (max-width:620px){.pbsearch{display:none}}
-.pnav{display:flex;border-top:1px solid var(--mint-2);overflow-x:auto;scrollbar-width:none}
+.pnav{display:flex;border-top:1px solid rgba(11,39,48,.15);overflow-x:auto;scrollbar-width:none}
 .pnav::-webkit-scrollbar{display:none}
 .pnav > div{position:relative}
-.pnav button,.pnav > a{background:none;border:0;cursor:pointer;color:var(--teal);font-weight:700;font-size:15px;padding:12px 16px 12px 0;margin-right:16px;display:flex;align-items:center;gap:6px;white-space:nowrap;text-decoration:none;border-bottom:3px solid transparent}
-.pnav button:hover,.pnav > a:hover,.pnav button[aria-expanded=true]{border-bottom-color:var(--teal)}
+.pnav button,.pnav > a{background:none;border:0;cursor:pointer;color:var(--navy-d);font-weight:700;font-size:15px;padding:12px 16px 12px 0;margin-right:16px;display:flex;align-items:center;gap:6px;white-space:nowrap;text-decoration:none;border-bottom:3px solid transparent}
+.pnav button:hover,.pnav > a:hover,.pnav button[aria-expanded=true]{border-bottom-color:var(--navy-d)}
 .pnav svg{width:11px;height:11px;transition:transform .2s}
 .pnav button[aria-expanded=true] svg{transform:rotate(180deg)}
 .mega{position:absolute;left:0;right:0;top:100%;background:#fff;border-bottom:4px solid var(--aqua);box-shadow:0 24px 40px -24px rgba(0,0,0,.4)}
