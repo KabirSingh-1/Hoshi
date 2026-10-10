@@ -10,16 +10,16 @@ web
 React + Vite + Tailwind CSS (user requirement). Static single page; lead endpoint not yet built.
 
 ## Users
-Primary (confirmed by user, 2026-10-08): ultra-high-net-worth families. Tone and visuals must feel like a private school or boutique private tutor: discreet, restrained, rigorous, never edtech-cheerful or discount-led. Parents in this segment are mostly urban/semi-urban Gujarat, many first visits on phones, who are curious about homeschooling but afraid of an irreversible mistake for their child. Three working personas from the PRD (unvalidated): disillusioned school parent, future-skills parent, flexibility parent. Secondary: children roughly 8–16 who see the page when a parent shares it.
+Primary (confirmed by user, 2026-10-08): ultra-high-net-worth families. Tone must stay calm and rigorous, never discount-led. Visuals must feel like a home tutor: light, friendly, plain (user, 2026-10-09: the navy/gold private-school look "feels like a hotel or bank landing page"). Parents across India (client, 2026-10-09: no specific place), many first visits on phones, who are curious about homeschooling but afraid of an irreversible mistake for their child. Three working personas from the PRD (unvalidated): disillusioned school parent, future-skills parent, flexibility parent. Secondary: children roughly 8–16 who see the page when a parent shares it.
 
 ## Product Purpose
-Hoshi Academy is a Gandhinagar-based homeschooling platform pairing academics with AI, technology and practical skills. The landing page turns a skeptical parent into an enquiry for a free counselling call (form, WhatsApp or phone).
+Hoshi Home Schooling (renamed from Hoshi Academy, 2026-10-09) is an online homeschooling platform serving families across India; no city or address is shown on the site. It pairs academics with AI, technology and practical skills. The landing page turns a skeptical parent into an enquiry for a free counselling call (form, WhatsApp or phone).
 
 ## Positioning
 "Learning Beyond Classrooms." The homeschool that teaches children to think, build and use AI as a skill, on top of an academic foundation. Competitors sell board recognition and price; none sell hands-on AI and real-world application. Tagline: Learn. Explore. Create. Apply.
 
 ## Operating Context
-Parents compare online schools, ask about legality, return-to-school, certificates, social life, cost and daily routine. Enquiry goes to a counselling call. Office: C/9, Patnagar Yojna Bhavan, Sector 16, Gandhinagar. Phone/WhatsApp: 7779091145. MD: Navneet Goyal.
+Parents compare online schools, ask about legality, return-to-school, certificates, social life, cost and daily routine. Enquiry goes to a counselling call. No office address is published (client, 2026-10-09). Phone/WhatsApp: 7779091145. MD: Navneet Goyal.
 
 ## Capabilities and Constraints
 - Undecided (client): board/exam pathway, ages/grades served, online vs in-centre, fees, batch size, teacher names, launch languages, callback window.
@@ -42,3 +42,9 @@ None: no logo file, photos, student work, testimonials, teacher bios or numbers.
 
 ## Accessibility & Inclusion
 WCAG 2.1 AA, 44px tap targets, keyboard-operable form and accordion, prefers-reduced-motion respected. Hindi/Gujarati versions planned for phase 2.
+
+## Direction update (client, 2026-10-09)
+Mix of BBC Learning English (two-tier nav, illustrated banner with "change language", teal band, gradient level tiles, teal explore tiles, two-tone footer) and Cambridge International (stage pathway, "What do you need to do today?"). Brand colour teal #0e7c7b. Ages 3–17 shown up front. Subjects add Music, Abacus (as a practical skill), Art, AI & future skills. Site in English, Hindi, Gujarati; other Indian languages shown locked as "coming soon". No city or address anywhere.
+
+## Site structure (user, 2026-10-09)
+Multi-page, every section must map to a real pattern on BBC Learning English or Cambridge International; no invented section types (e.g. "How we're different", FAQ, How it works were removed on request). Routes: / (home), /ages/ + /ages/{early-years,primary,middle,secondary,senior}/, /subjects/ + /subjects/{academics,music,abacus,art,languages,ai-future-skills}/, /exams/ (NIOS and Cambridge private-candidate routes, neutral, with a not-a-board disclaimer), /parents/ (parent questions as Cambridge linked-heading cards), /why-hoshi/, /contact/. Added 2026-10-09. BBC chrome on every page (top bar, banner, nav whose dropdowns open a teal sub-link band, footer); inner pages use Cambridge's template (colour band, white panel, side menu, breadcrumb, linked-heading cards).
