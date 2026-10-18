@@ -29,9 +29,13 @@ const PROGS = [
   { href: '#seniors', c: 'academic', img: '/img/teen-studying-home.jpg', alt: 'Teenage student writing notes at his desk at home', tag: 'Classes 6–12', h: 'Middle & Senior Subjects', p: 'All core and elective subjects, taught by qualified subject specialists.' },
   { href: '#contact', c: 'lang', img: '/img/globe.jpg', alt: 'Child pointing at a globe', tag: 'Languages', h: 'Languages', p: 'English, Hindi, Gujarati and other supported languages.' },
   { href: '#skills', c: 'skill', img: '/img/coding.jpg', alt: 'Older student writing code on a computer', tag: 'Classes 6–12', h: 'AI & Future Skills', p: 'AI, coding, data and digital skills for older students.' },
+  { href: '#contact', c: 'skill', img: '/img/robotics.jpg', alt: 'Child programming small robot blocks on a tablet', tag: 'Skill', h: 'Robotics', p: 'Build, wire and program robots, from first kits to real projects.' },
   { href: '#contact', c: 'creative', img: '/img/piano.jpg', alt: 'Young girl with headphones playing piano', tag: 'Creative', h: 'Musical Instruments', p: 'Rhythm, singing, keyboard and music theory.' },
   { href: '#contact', c: 'skill', img: '/img/abacus.jpg', alt: 'Child moving coloured beads on an abacus', tag: 'Skill', h: 'Abacus & Mental Math', p: 'A practical skill for fast, confident maths.' },
   { href: '#contact', c: 'creative', img: '/img/painting.jpg', alt: 'Child painting with a brush and palette', tag: 'Creative', h: 'Art & Creativity', p: 'Drawing, painting, craft and design.' },
+  { href: '#contact', c: 'skill', img: '/img/chess.jpg', alt: 'Father and son playing chess on the floor', tag: 'Skill', h: 'Chess', p: 'Openings, tactics and strategy that build focus and patience.' },
+  { href: '#contact', c: 'skill', img: '/img/table-tennis.jpg', alt: 'Table tennis table with a bat and ball', tag: 'Sport', h: 'Table Tennis', p: 'Footwork, strokes and match play with a trained coach.' },
+  { href: '#contact', c: 'skill', img: '/img/yoga.jpg', alt: 'Child and parent doing yoga on mats at home', tag: 'Wellness', h: 'Yoga', p: 'Poses, breathing and mindfulness for a strong, calm body and mind.' },
   { href: '#teachers', c: 'academic', img: '/img/teacher-boy.jpg', alt: 'Teacher and boy drawing together at home', tag: 'Personalized', h: 'Individual Home Schooling', p: 'A dedicated teacher for your child, at home, at your timings.' },
 ]
 const FILTERS = [['all', 'All'], ['academic', 'Academic'], ['lang', 'Languages'], ['creative', 'Creative'], ['skill', 'Skills']]
@@ -39,7 +43,7 @@ const FILTERS = [['all', 'All'], ['academic', 'Academic'], ['lang', 'Languages']
 const MEGA = {
   'm-about': { h: 'About Hoshi', p: 'Personalised home schooling and home tuition for every child.', links: [['#about', 'What is Hoshi?'], ['#about', 'Why Hoshi?'], ['#different', 'How we are different'], ['#contact', 'Talk to a mentor']] },
   'm-stages': { h: 'Age stages', p: 'A clear path from age 3 to 15.', links: [['#pathway', 'Little Stars · 3–5', { st: 0 }], ['#pathway', 'Rising Stars · 6–8', { st: 1 }], ['#pathway', 'Bright Stars · 9–11', { st: 2 }], ['#pathway', 'Shining Stars · 12–13', { st: 3 }], ['#pathway', 'Guiding Stars · 14–15', { st: 4 }], ['#seniors', 'Classes 10 & 12']] },
-  'm-subj': { h: 'Subjects', p: 'Every subject from Class 1 to 12, plus creative and future skills.', links: [['#subjects', 'Foundational Academics', { f: 'academic' }], ['#subjects', 'Middle & Senior Subjects', { f: 'academic' }], ['#subjects', 'Languages', { f: 'lang' }], ['#subjects', 'Musical Instruments', { f: 'creative' }], ['#subjects', 'Abacus & Mental Math', { f: 'skill' }], ['#subjects', 'Art & Creativity', { f: 'creative' }], ['#subjects', 'AI & Future Skills', { f: 'skill' }], ['#subjects', 'Individual Home Schooling', { f: 'academic' }]] },
+  'm-subj': { h: 'Subjects', p: 'Every subject from Class 1 to 12, plus creative and future skills.', links: [['#subjects', 'Foundational Academics', { f: 'academic' }], ['#subjects', 'Middle & Senior Subjects', { f: 'academic' }], ['#subjects', 'Languages', { f: 'lang' }], ['#subjects', 'Musical Instruments', { f: 'creative' }], ['#subjects', 'Abacus & Mental Math', { f: 'skill' }], ['#subjects', 'Art & Creativity', { f: 'creative' }], ['#subjects', 'AI & Future Skills', { f: 'skill' }], ['#subjects', 'Robotics', { f: 'skill' }], ['#subjects', 'Chess', { f: 'skill' }], ['#subjects', 'Table Tennis', { f: 'skill' }], ['#subjects', 'Yoga', { f: 'skill' }], ['#subjects', 'Individual Home Schooling', { f: 'academic' }]] },
 }
 
 const ABC = [['A', 'Apple', '#8128e7'], ['B', 'Ball', '#5465f8'], ['C', 'Cat', '#008a08'], ['D', 'Duck', '#d74120']]
@@ -47,6 +51,8 @@ const ABC = [['A', 'Apple', '#8128e7'], ['B', 'Ball', '#5465f8'], ['C', 'Cat', '
 const say = (w) => { try { const u = new SpeechSynthesisUtterance(w); u.rate = 0.85; speechSynthesis.cancel(); speechSynthesis.speak(u) } catch { /* no speech support */ } }
 const savedLang = () => { try { const l = localStorage.getItem('hoshi-lang'); return T[l] ? l : 'en' } catch { return 'en' } }
 const Use = ({ id }) => <svg><use href={`#${id}`} /></svg>
+// Wordmark: dotless ı with the Hoshi star as its tittle
+const Logo = () => <span className="logo" aria-hidden="true">Hosh<span className="li">ı<svg viewBox="0 0 24 24"><path d="M12 1.6l3.05 6.5 7.05.85-5.2 4.85 1.36 7L12 17.3l-6.26 3.5 1.36-7L1.9 8.95l7.05-.85z" /></svg></span></span>
 
 function Sprite() {
   return (
@@ -83,7 +89,22 @@ export default function App() {
   const stageOf = (a) => STAGES.findIndex((s) => a >= s.min && a <= s.max)
   const [filter, setFilter] = useState('all')
   const [letter, setLetter] = useState(null)
-  const [sent, setSent] = useState(false)
+  const [sent, setSent] = useState('')
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    setSent('sending')
+    const formData = new FormData(e.target)
+    formData.append('access_key', '52829f8b-c2dc-4c69-9e64-b7c3aa00b385')
+    formData.append('subject', 'New free demo class booking')
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData })
+      const data = await res.json()
+      if (data.success) { setSent('ok'); e.target.reset() } else setSent('error')
+    } catch {
+      setSent('error')
+    }
+  }
   const searchRef = useRef(null)
 
   const setLang = (l) => {
@@ -137,7 +158,7 @@ export default function App() {
       {/* ===== Global masthead ===== */}
       <header className="gn">
         <div className="wrap">
-          <a className="mark" href="#top" aria-label="Hoshi home"><svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#133844" /><path d="M16 5.5l3 6.8 7.4.7-5.6 4.9 1.7 7.3L16 21.4l-6.5 3.8 1.7-7.3-5.6-4.9 7.4-.7z" fill="#3be0d0" /></svg><b style={{ fontFamily: 'var(--serif)', fontSize: 24, fontWeight: 600 }}>Hoshi</b></a>
+          <a className="mark" href="#top" aria-label="Hoshi home"><Logo /></a>
           <button className="signin" type="button" onClick={() => { location.hash = 'contact' }}><Use id="i-user" /><span>{tr('signin', 'Sign in')}</span></button>
           <nav className="gl" aria-label="Global">
             {globalLinks.map(([h, k, en]) => <a key={k} href={h}>{tr(k, en)}</a>)}
@@ -413,14 +434,17 @@ export default function App() {
         <section className="cta" id="contact">
           <div className="wrap">
             <div><img className="ctaimg" src="/img/laptop.jpg" alt="In-person Hoshi tutor conducting a physical home visit demo lesson" loading="lazy" /><h2>{tr('ctaH', 'Book free demo classes for your child')}</h2><p>Meet your child&apos;s teacher, try a lesson and get a personal learning plan.</p></div>
-            <form onSubmit={(e) => { e.preventDefault(); setSent(true) }}>
-              <div className="row"><label htmlFor="pn">Parent&apos;s name<input id="pn" required autoComplete="name" /></label><label htmlFor="ph">Phone / WhatsApp<input id="ph" type="tel" required autoComplete="tel" /></label></div>
+            <form onSubmit={onSubmit}>
+              <div className="row"><label htmlFor="pn">Parent&apos;s name<input id="pn" name="name" required autoComplete="name" /></label><label htmlFor="ph">Phone / WhatsApp<input id="ph" name="phone" type="tel" required autoComplete="tel" /></label></div>
+              <label htmlFor="em">Email<input id="em" name="email" type="email" required autoComplete="email" /></label>
               <div className="row">
-                <label htmlFor="ca">Child&apos;s age<select id="ca" defaultValue="6–8">{['3–5', '6–8', '9–11', '12–13', '14–15', 'Class 10', 'Class 12'].map((o) => <option key={o}>{o}</option>)}</select></label>
-                <label htmlFor="pl">Language<select id="pl">{['English', 'हिन्दी', 'ગુજરાતી'].map((o) => <option key={o}>{o}</option>)}</select></label>
+                <label htmlFor="ca">Child&apos;s age<select id="ca" name="child_age" defaultValue="6–8">{['3–5', '6–8', '9–11', '12–13', '14–15', 'Class 10', 'Class 12'].map((o) => <option key={o}>{o}</option>)}</select></label>
+                <label htmlFor="pl">Language<select id="pl" name="language">{['English', 'हिन्दी', 'ગુજરાતી'].map((o) => <option key={o}>{o}</option>)}</select></label>
               </div>
-              <button className="btn" type="submit">{tr('demo', 'Book free demo classes for your child')}</button>
-              <p className="ok" hidden={!sent}>Thank you. This is a design preview, so nothing was sent.</p>
+              <input type="checkbox" name="botcheck" className="sr" tabIndex={-1} autoComplete="off" />
+              <button className="btn" type="submit" disabled={sent === 'sending'}>{sent === 'sending' ? 'Sending…' : tr('demo', 'Book free demo classes for your child')}</button>
+              <p className="ok" hidden={sent !== 'ok'}>Thank you! We&apos;ve received your request and will contact you soon.</p>
+              <p className="ok err" hidden={sent !== 'error'}>Sorry, something went wrong. Please try again or message us on WhatsApp.</p>
             </form>
           </div>
         </section>
@@ -428,7 +452,7 @@ export default function App() {
 
       <footer><div className="wrap">
         <div className="fg">
-          <div><h4>Hoshi Home Schooling</h4><p>Learn. Explore. Create. Apply.</p></div>
+          <div><h4 className="flogo"><Logo /><span className="sr">Hoshi</span><small>Home Schooling</small></h4><p>Learn. Explore. Create. Apply.</p></div>
           <div><h4>Learn</h4><a href="#subjects">Subjects</a><a href="#skills">AI &amp; Future Skills</a><a href="#pathway">Age stages</a></div>
           <div><h4>About</h4><a href="#about">What is Hoshi?</a><a href="#about">Why Hoshi</a><a href="#different">How we are different</a><a href="#teachers">Teacher quality</a></div>
           <div><h4>Parents</h4><a href="#contact">Book free demo classes</a><a href="#teachers">Our specialists</a><a href="#seniors">Classes 10 &amp; 12</a></div>
