@@ -27,7 +27,7 @@ const STAGES = [
 const PROGS = [
   { href: '#contact', c: 'academic', img: '/img/girl-reading.jpg', alt: 'Young girl reading with her teacher', tag: 'Classes 1–5', h: 'Foundational Academics', p: 'Reading, writing, numbers, EVS and science basics.' },
   { href: '#seniors', c: 'academic', img: '/img/teen-studying-home.jpg', alt: 'Teenage student writing notes at his desk at home', tag: 'Classes 6–12', h: 'Middle & Senior Subjects', p: 'All core and elective subjects, taught by qualified subject specialists.' },
-  { href: '#contact', c: 'lang', img: '/img/globe.jpg', alt: 'Child pointing at a globe', tag: 'Languages', h: 'Languages', p: 'English, Hindi, Gujarati and other supported languages.' },
+  { href: '#contact', c: 'lang', img: '/img/globe.jpg', alt: 'Child pointing at a globe', tag: 'Languages', h: 'Languages', p: 'We teach many languages like English, Japanese, Spanish and more.' },
   { href: '#skills', c: 'skill', img: '/img/coding.jpg', alt: 'Older student writing code on a computer', tag: 'Classes 6–12', h: 'AI & Future Skills', p: 'AI, coding, data and digital skills for older students.' },
   { href: '#contact', c: 'skill', img: '/img/robotics.jpg', alt: 'Child programming small robot blocks on a tablet', tag: 'Skill', h: 'Robotics', p: 'Build, wire and program robots, from first kits to real projects.' },
   { href: '#contact', c: 'creative', img: '/img/piano.jpg', alt: 'Young girl with headphones playing piano', tag: 'Creative', h: 'Musical Instruments', p: 'Rhythm, singing, keyboard and music theory.' },
